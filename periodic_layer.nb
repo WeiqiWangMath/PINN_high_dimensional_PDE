@@ -1,0 +1,164 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5846,        154]
+NotebookOptionsPosition[      5371,        137]
+NotebookOutlinePosition[      5764,        153]
+CellTagsIndexPosition[      5721,        150]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"L", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Omega]", "=", 
+    RowBox[{"8", 
+     RowBox[{"\[Pi]", "/", "L"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Tanh", "[", 
+        RowBox[{
+         RowBox[{"A1", "*", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"\[Omega]", "*", "x"}], "+", "\[Phi]1"}], "]"}]}], "+", 
+         "c1"}], "]"}], "+", 
+       RowBox[{"Tanh", "[", 
+        RowBox[{
+         RowBox[{"A2", "*", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"\[Omega]", "*", "x"}], "+", "\[Phi]2"}], "]"}]}], "+", 
+         "c2"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "2"}], ",", "2"}], "}"}]}], ",", 
+     RowBox[{"MaxRecursion", "\[Rule]", "5"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"A1", ",", 
+     RowBox[{"-", "10"}], ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Phi]1", ",", 
+     RowBox[{"-", "10"}], ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"c1", ",", 
+     RowBox[{"-", "10"}], ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"A2", ",", 
+     RowBox[{"-", "10"}], ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Phi]2", ",", 
+     RowBox[{"-", "10"}], ",", "10"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"c2", ",", 
+     RowBox[{"-", "10"}], ",", "10"}], "}"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.877210502309835*^9, 3.877210652912559*^9}, {
+  3.877210688583323*^9, 3.877210722855221*^9}, {3.877210775070991*^9, 
+  3.877210808956863*^9}, {3.877210850738011*^9, 3.8772108780628*^9}},
+ CellLabel->"In[28]:=",ExpressionUUID->"474d4c99-50ab-4f4b-b34e-80b9d7a97063"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`A1$$ = -5.72, $CellContext`A2$$ = 
+    8.780000000000001, $CellContext`c1$$ = -5.1, $CellContext`c2$$ = -5.38, \
+$CellContext`\[Phi]1$$ = -0.22000000000000064`, $CellContext`\[Phi]2$$ = 
+    1.5999999999999996`, Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`A1$$], -10, 10}, {
+      Hold[$CellContext`\[Phi]1$$], -10, 10}, {
+      Hold[$CellContext`c1$$], -10, 10}, {
+      Hold[$CellContext`A2$$], -10, 10}, {
+      Hold[$CellContext`\[Phi]2$$], -10, 10}, {
+      Hold[$CellContext`c2$$], -10, 10}}, Typeset`size$$ = {
+    450., {140., 147.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`A1$$ = -10, $CellContext`A2$$ = -10, \
+$CellContext`c1$$ = -10, $CellContext`c2$$ = -10, $CellContext`\[Phi]1$$ = \
+-10, $CellContext`\[Phi]2$$ = -10}, "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Plot[{Tanh[$CellContext`A1$$ 
+            Cos[$CellContext`\[Omega] $CellContext`x + \
+$CellContext`\[Phi]1$$] + $CellContext`c1$$] + 
+         Tanh[$CellContext`A2$$ 
+            Cos[$CellContext`\[Omega] $CellContext`x + \
+$CellContext`\[Phi]2$$] + $CellContext`c2$$]}, {$CellContext`x, 0, 1}, 
+        PlotRange -> {-2, 2}, MaxRecursion -> 5], 
+      "Specifications" :> {{$CellContext`A1$$, -10, 
+         10}, {$CellContext`\[Phi]1$$, -10, 10}, {$CellContext`c1$$, -10, 
+         10}, {$CellContext`A2$$, -10, 10}, {$CellContext`\[Phi]2$$, -10, 
+         10}, {$CellContext`c2$$, -10, 10}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{505., {266., 273.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.877210629011458*^9, 3.8772106619108677`*^9}, {
+  3.877210723521104*^9, 3.877210730109774*^9}, {3.877210780300962*^9, 
+  3.877210809343874*^9}, {3.877210852684355*^9, 3.877210879331482*^9}},
+ CellLabel->"Out[30]=",ExpressionUUID->"e1dd2418-fe9d-4251-bdc9-21857b55ea1a"]
+}, Open  ]]
+},
+WindowSize->{896, 1067},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.1 for Mac OS X x86 (64-bit) (March 18, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"3ab9ad28-ac26-4db2-80d2-a93c6462e3af"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 1967, 57, 168, "Input",ExpressionUUID->"474d4c99-50ab-4f4b-b34e-80b9d7a97063"],
+Cell[2550, 81, 2805, 53, 582, "Output",ExpressionUUID->"e1dd2418-fe9d-4251-bdc9-21857b55ea1a"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

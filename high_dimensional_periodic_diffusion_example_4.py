@@ -190,8 +190,8 @@ def exact_solu(x):
     L,x_dim = np.shape(x)
     y = np.zeros_like(x[:, 0])
     for k in range(x_dim):
-      y = y + 1/(k+1) * np.sin(2* np.pi * np.double(x[:, k]))
-    y = np.exp(y * 2 / x_dim)
+      y = y + 1/(k+1)/(k+1) * np.sin(2* np.pi * np.double(x[:, k]))
+    y = np.exp(y)
     return y
 
 # Compute the gradient and divergence of the exact solution numerically
@@ -319,7 +319,7 @@ def PINNtrain(x, epochs, model):
             
         if (epoch_loss[i] < stop_tol):
             print("Current model has loss {: 1.6e}, lower than stopping tolerance {: 1.6e}, stopping early at epoch {}.".format(epoch_loss[i],stop_tol,i))
-            return epoch_loss, N_loss, gradient_loss, divergence_loss, error
+            return epoch_loss, N_loss, gradient_loss, divergence_loss
     
     if (best_loss < epoch_loss[i]):
         model.set_weights(best_weights)
@@ -335,13 +335,6 @@ PDE_loss1, N_loss1, gradient_loss1, divergence_loss1, error_epoch = PINNtrain(tf
 
 
 
-# relative L^2 error
-input_data_MC = np.random.uniform(0 ,1, (M_error,input_dim))
-z_model = model5(input_data_MC)
-z_model = tf.reshape(z_model, [M_error])
-z_exact = np.sin(4*np.pi*input_data_MC[:, 0]) * np.sin(2*np.pi*input_data_MC[:, 1])
-error = np.sqrt(sum(np.square(z_model - z_exact)))/np.sqrt(sum(np.square(z_exact)))
-print(error)
 
 file_name = sys.argv[6]
 N_runs = int(sys.argv[7])

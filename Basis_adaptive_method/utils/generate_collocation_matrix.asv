@@ -1,0 +1,76 @@
+%--- Description ---%
+%
+% Filename: generate_collocation_matrix.m
+%
+% Description: generates a collocation matrix with boundary adapted
+% legendre polynomial
+% Inputs:
+% diffusion - diffusion function
+% grad_diffusion - gradient of diffusion function
+% % grad_diffusion{i} - gradient to the i-th component
+% I - d x N array of multi-indices
+% y_grid - m x d array of sample points
+% BC_type - type of boundary condition
+% % 'HOMO' - homogeneous   'PERIODIC' - periodic
+% nu - nu in the equation
+% Output:
+% A - m x N array of normalized measurement matrix A
+
+function A = generate_collocation_matrix(diffusion, grad_diffusion, I, y_grid, BC_type, nu)
+
+[d,N] = size(I); % get N (number of matrix columns) and d (dimension)
+m = size(y_grid,1); % get m (number of matrix rows)
+A = zeros(m,N); % initialize A
+
+n = max(abs(I(:))); % find maximum polynomial degree
+
+% Lij1 = zeros(d);
+% L1ij = ones(d,1); % 1st order partial derivative
+% L2ij = ones(d,1); % 2nd order partial derivative
+% Lij = ones(1,d);
+for i = 1:m
+    y = y_grid(i,:); % select ith sample point
+    
+    Diffu = diffusion(y); % evaluate diffusion function at ith sample point
+     
+    % evaluate gradient of diffusion function at ith sample point
+    Grad_Diffu = zeros(d,1);
+    for j = 1:d
+        Grad_Diffu(j) = grad_diffusion{j}(y);
+    end
+    
+    % evaluate the 1D Legendre matrix at the components of y
+    switch BC_type
+        case 'HOMO'
+            [L, L1, L2] = legmat_derivative_BA(y', n);
+        case 'PERIODIC'
+            [L, L1, L2] = fourier_complex_mat_derivative(y', n);
+    end
+    
+    % evaluate the dD polynomials via tensor products
+    for j = 1:N
+        Lj = 1; 
+        L1ij = ones(d,1); % 1st order partial derivative
+        L2ij = ones(d,1); % 2nd order partial derivative
+        for k = 1:d
+            for h = 1:d
+                if k == h
+                    L1ij(k,1) = L1ij(k,1) * L1(h,I(h,j)+n+1);
+                    L2ij(k,1) = L2ij(k,1) * L2(h,I(h,j)+n+1);
+                else
+                    L1ij(k,1) = L1ij(k,1) * L(h,I(h,j)+n+1);
+                    L2ij(k,1) = L2ij(k,1) * L(h,I(h,j)+n+1);
+                end
+            end
+        end
+        A(i,j) = - Diffu * sum(L2ij) - sum(Grad_Diffu .* L1ij);
+        
+    end
+end
+
+% normalize A
+% for i = 1:N
+%     A(:,i) = A(:,i)/norm(A(:,i),2);
+% end
+end
+

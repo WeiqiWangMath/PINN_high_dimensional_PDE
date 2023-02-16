@@ -1,0 +1,398 @@
+created virtual environment CPython3.10.2.final.0-64 in 617ms
+  creator CPython3Posix(dest=/local/weiqiw.3448390.0/env, clear=False, no_vcs_ignore=False, global=False)
+  seeder FromAppData(download=False, pip=bundle, setuptools=bundle, wheel=bundle, via=copy, app_data_dir=/home/weiqiw/.local/share/virtualenv)
+    added seed packages: pip==22.3.1, setuptools==65.7.0, wheel==0.38.4
+  activators BashActivator,CShellActivator,FishActivator,NushellActivator,PowerShellActivator,PythonActivator
+Looking in links: /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/avx2, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/generic, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic
+Requirement already satisfied: pip in /local/weiqiw.3448390.0/env/lib/python3.10/site-packages (22.3.1)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/pip-23.0+computecanada-py3-none-any.whl
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 22.3.1
+    Uninstalling pip-22.3.1:
+      Successfully uninstalled pip-22.3.1
+Successfully installed pip-23.0+computecanada
+Looking in links: /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/avx2, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/generic, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/generic/numpy-1.23.0+computecanada-cp310-cp310-linux_x86_64.whl
+Installing collected packages: numpy
+Successfully installed numpy-1.23.0+computecanada
+Looking in links: /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/avx2, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/generic, /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/generic/tensorflow-2.8.0+computecanada-cp310-cp310-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/opt_einsum-3.3.0+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/six-1.16.0+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/flatbuffers-20190709135844+computecanada-py2.py3-none-any.whl
+Requirement already satisfied: setuptools in /local/weiqiw.3448390.0/env/lib/python3.10/site-packages (from tensorflow==2.8) (65.7.0)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/grpcio-1.47.0+computecanada-cp310-cp310-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/libclang-14.0.1+computecanada-py2.py3-none-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/absl_py-1.4.0+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/tensorboard-2.8.0+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/keras-2.8.0+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/google_pasta-0.2.0+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/tensorflow_io_gcs_filesystem-0.26.0+computecanada-cp310-cp310-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/avx2/protobuf-4.21.5+computecanada-cp310-cp310-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/astunparse-1.6.3+computecanada-py2.py3-none-any.whl
+Requirement already satisfied: numpy>=1.20 in /local/weiqiw.3448390.0/env/lib/python3.10/site-packages (from tensorflow==2.8) (1.23.0+computecanada)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/gast-0.5.3+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/tf_estimator_nightly-2.8.0.dev2021122109+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/typing_extensions-4.4.0+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/Keras_Preprocessing-1.1.2+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/termcolor-1.1.0+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/wrapt-1.14.1+computecanada-cp310-cp310-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/gentoo/avx2/h5py-3.7.0+computecanada-cp310-cp310-linux_x86_64.whl
+Requirement already satisfied: wheel<1.0,>=0.23.0 in /local/weiqiw.3448390.0/env/lib/python3.10/site-packages (from astunparse>=1.6.0->tensorflow==2.8) (0.38.4)
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/requests-2.28.2+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/tensorboard_plugin_wit-1.8.1+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/tensorboard_data_server-0.6.1+computecanada-py3-none-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/Markdown-3.4.1+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/google_auth-2.16.0+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/google_auth_oauthlib-0.4.6+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/Werkzeug-2.2.2+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/pyasn1_modules-0.2.8+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/rsa-4.9+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/cachetools-5.3.0+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/requests_oauthlib-1.3.1+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/idna-3.4+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/urllib3-1.26.14+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/charset_normalizer-3.0.1+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/certifi-2022.12.7+computecanada-py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/MarkupSafe-2.1.1+computecanada-cp310-cp310-linux_x86_64.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/pyasn1-0.4.8+computecanada-py2.py3-none-any.whl
+Processing /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic/oauthlib-3.2.2+computecanada-py3-none-any.whl
+Installing collected packages: tf-estimator-nightly, termcolor, tensorboard-plugin-wit, pyasn1, libclang, keras, flatbuffers, charset-normalizer, wrapt, urllib3, typing-extensions, tensorflow-io-gcs-filesystem, tensorboard-data-server, six, rsa, pyasn1-modules, protobuf, opt-einsum, oauthlib, MarkupSafe, markdown, idna, h5py, gast, certifi, cachetools, absl-py, werkzeug, requests, keras-preprocessing, grpcio, google-pasta, google-auth, astunparse, requests-oauthlib, google-auth-oauthlib, tensorboard, tensorflow
+Successfully installed MarkupSafe-2.1.1+computecanada absl-py-1.4.0+computecanada astunparse-1.6.3+computecanada cachetools-5.3.0+computecanada certifi-2022.12.7+computecanada charset-normalizer-3.0.1+computecanada flatbuffers-20190709135844+computecanada gast-0.5.3+computecanada google-auth-2.16.0+computecanada google-auth-oauthlib-0.4.6+computecanada google-pasta-0.2.0+computecanada grpcio-1.47.0+computecanada h5py-3.7.0+computecanada idna-3.4+computecanada keras-2.8.0+computecanada keras-preprocessing-1.1.2+computecanada libclang-14.0.1+computecanada markdown-3.4.1+computecanada oauthlib-3.2.2+computecanada opt-einsum-3.3.0+computecanada protobuf-4.21.5+computecanada pyasn1-0.4.8+computecanada pyasn1-modules-0.2.8+computecanada requests-2.28.2+computecanada requests-oauthlib-1.3.1+computecanada rsa-4.9+computecanada six-1.16.0+computecanada tensorboard-2.8.0+computecanada tensorboard-data-server-0.6.1+computecanada tensorboard-plugin-wit-1.8.1+computecanada tensorflow-2.8.0+computecanada tensorflow-io-gcs-filesystem-0.26.0+computecanada termcolor-1.1.0+computecanada tf-estimator-nightly-2.8.0.dev2021122109+computecanada typing-extensions-4.4.0+computecanada urllib3-1.26.14+computecanada werkzeug-2.2.2+computecanada wrapt-1.14.1+computecanada
+2023-02-08 19:33:23.036732: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-02-08 19:33:23.818121: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 13657 MB memory:  -> device: 0, name: Tesla T4, pci bus id: 0000:5f:00.0, compute capability: 7.5
+['high_dimensional_periodic_diffusion_example_3.py', '10', '65536', '0.5', '30000', '10000', 'example3_dim10_N65536', '3', '3']
+Num GPUs: 1
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ first_periodic_layer (Dense  (None, 110)              1210      
+ )                                                               
+                                                                 
+ second_periodic_layer (Dens  (None, 110)              12210     
+ e)                                                              
+                                                                 
+ hidden_layer_0 (Dense)      (None, 30)                3330      
+                                                                 
+ hidden_layer_1 (Dense)      (None, 30)                930       
+                                                                 
+ first_to_last_hidden_layer   (None, 30)               930       
+ (Dense)                                                         
+                                                                 
+ dense (Dense)               (None, 1)                 31        
+                                                                 
+=================================================================
+Total params: 18,641
+Trainable params: 18,641
+Non-trainable params: 0
+_________________________________________________________________
+None
+[0.45547664 0.95116942 0.84502179]
+[1 1 4]
+[3 1 2]
+[9 1 6]
+[0 4 2]
+PDE loss in 0th epoch:  8.041798e+09. Last save epoch and best loss so far: -1,  1.000000e+12. Current error  1.025697e+00
+PDE loss in 100th epoch:  7.984420e+09. Last save epoch and best loss so far: 99,  7.984550e+09. Current error  1.033446e+00
+PDE loss in 200th epoch:  7.928762e+09. Last save epoch and best loss so far: 199,  7.930172e+09. Current error  1.192827e+00
+PDE loss in 300th epoch:  7.484846e+09. Last save epoch and best loss so far: 299,  7.489953e+09. Current error  1.176466e+00
+PDE loss in 400th epoch:  7.142555e+09. Last save epoch and best loss so far: 399,  7.145064e+09. Current error  1.191523e+00
+PDE loss in 500th epoch:  6.940913e+09. Last save epoch and best loss so far: 499,  6.942388e+09. Current error  1.247026e+00
+PDE loss in 600th epoch:  5.995909e+09. Last save epoch and best loss so far: 599,  6.008518e+09. Current error  1.165758e+00
+PDE loss in 700th epoch:  1.402915e+09. Last save epoch and best loss so far: 699,  1.476873e+09. Current error  1.080320e+00
+PDE loss in 800th epoch:  2.064958e+08. Last save epoch and best loss so far: 799,  2.068807e+08. Current error  8.153118e-01
+PDE loss in 900th epoch:  1.531324e+08. Last save epoch and best loss so far: 899,  1.539211e+08. Current error  9.794776e-01
+PDE loss in 1000th epoch:  1.334207e+08. Last save epoch and best loss so far: 998,  1.331928e+08. Current error  1.170920e+00
+PDE loss in 1100th epoch:  1.215825e+08. Last save epoch and best loss so far: 1099,  1.216677e+08. Current error  1.297274e+00
+PDE loss in 1200th epoch:  1.149147e+08. Last save epoch and best loss so far: 1199,  1.149719e+08. Current error  1.369078e+00
+PDE loss in 1300th epoch:  1.110966e+08. Last save epoch and best loss so far: 1298,  1.108079e+08. Current error  1.392753e+00
+PDE loss in 1400th epoch:  1.074691e+08. Last save epoch and best loss so far: 1399,  1.074950e+08. Current error  1.411671e+00
+PDE loss in 1500th epoch:  1.052149e+08. Last save epoch and best loss so far: 1499,  1.052350e+08. Current error  1.402081e+00
+PDE loss in 1600th epoch:  1.035433e+08. Last save epoch and best loss so far: 1599,  1.035532e+08. Current error  1.384408e+00
+PDE loss in 1700th epoch:  1.027744e+08. Last save epoch and best loss so far: 1693,  1.022657e+08. Current error  1.362758e+00
+PDE loss in 1800th epoch:  1.010922e+08. Last save epoch and best loss so far: 1799,  1.011021e+08. Current error  1.336932e+00
+PDE loss in 1900th epoch:  1.002250e+08. Last save epoch and best loss so far: 1899,  1.002313e+08. Current error  1.307904e+00
+PDE loss in 2000th epoch:  1.146338e+08. Last save epoch and best loss so far: 1986,  9.958251e+07. Current error  1.226111e+00
+PDE loss in 2100th epoch:  9.887926e+07. Last save epoch and best loss so far: 2099,  9.888502e+07. Current error  1.245665e+00
+PDE loss in 2200th epoch:  9.867256e+07. Last save epoch and best loss so far: 2193,  9.838722e+07. Current error  1.229975e+00
+PDE loss in 2300th epoch:  9.792430e+07. Last save epoch and best loss so far: 2293,  9.793429e+07. Current error  1.178586e+00
+PDE loss in 2400th epoch:  9.876874e+07. Last save epoch and best loss so far: 2397,  9.761526e+07. Current error  1.155694e+00
+PDE loss in 2500th epoch:  9.850715e+07. Last save epoch and best loss so far: 2468,  9.726382e+07. Current error  1.110532e+00
+PDE loss in 2600th epoch:  9.685459e+07. Last save epoch and best loss so far: 2598,  9.685086e+07. Current error  1.101934e+00
+PDE loss in 2700th epoch:  9.656742e+07. Last save epoch and best loss so far: 2699,  9.656998e+07. Current error  1.065214e+00
+PDE loss in 2800th epoch:  9.633059e+07. Last save epoch and best loss so far: 2799,  9.633430e+07. Current error  1.036689e+00
+PDE loss in 2900th epoch:  9.611122e+07. Last save epoch and best loss so far: 2899,  9.611298e+07. Current error  1.010659e+00
+PDE loss in 3000th epoch:  9.598074e+07. Last save epoch and best loss so far: 2997,  9.593076e+07. Current error  9.860630e-01
+PDE loss in 3100th epoch:  9.597047e+07. Last save epoch and best loss so far: 3053,  9.582734e+07. Current error  9.499721e-01
+PDE loss in 3200th epoch:  9.558608e+07. Last save epoch and best loss so far: 3199,  9.558765e+07. Current error  9.399172e-01
+PDE loss in 3300th epoch:  9.544910e+07. Last save epoch and best loss so far: 3299,  9.545062e+07. Current error  9.167757e-01
+PDE loss in 3400th epoch:  9.543902e+07. Last save epoch and best loss so far: 3398,  9.537176e+07. Current error  8.659061e-01
+PDE loss in 3500th epoch:  9.519803e+07. Last save epoch and best loss so far: 3499,  9.519922e+07. Current error  8.833389e-01
+PDE loss in 3600th epoch:  9.807648e+07. Last save epoch and best loss so far: 3575,  9.511240e+07. Current error  8.734653e-01
+PDE loss in 3700th epoch:  9.499214e+07. Last save epoch and best loss so far: 3699,  9.499312e+07. Current error  8.558186e-01
+PDE loss in 3800th epoch:  9.489402e+07. Last save epoch and best loss so far: 3799,  9.489498e+07. Current error  8.444396e-01
+PDE loss in 3900th epoch:  9.481635e+07. Last save epoch and best loss so far: 3896,  9.481721e+07. Current error  8.267476e-01
+PDE loss in 4000th epoch:  9.472573e+07. Last save epoch and best loss so far: 3999,  9.472638e+07. Current error  8.261744e-01
+PDE loss in 4100th epoch:  9.465434e+07. Last save epoch and best loss so far: 4099,  9.465472e+07. Current error  8.178414e-01
+PDE loss in 4200th epoch:  9.472546e+07. Last save epoch and best loss so far: 4191,  9.458315e+07. Current error  8.373261e-01
+PDE loss in 4300th epoch:  9.503856e+07. Last save epoch and best loss so far: 4263,  9.453894e+07. Current error  7.964455e-01
+PDE loss in 4400th epoch:  9.444478e+07. Last save epoch and best loss so far: 4399,  9.444542e+07. Current error  8.011741e-01
+PDE loss in 4500th epoch:  9.439511e+07. Last save epoch and best loss so far: 4496,  9.439333e+07. Current error  7.925652e-01
+PDE loss in 4600th epoch:  9.437142e+07. Last save epoch and best loss so far: 4593,  9.434223e+07. Current error  7.879534e-01
+PDE loss in 4700th epoch:  9.445955e+07. Last save epoch and best loss so far: 4645,  9.430222e+07. Current error  7.756890e-01
+PDE loss in 4800th epoch:  9.435207e+07. Last save epoch and best loss so far: 4769,  9.423663e+07. Current error  7.826384e-01
+PDE loss in 4900th epoch:  9.423615e+07. Last save epoch and best loss so far: 4895,  9.417961e+07. Current error  7.819621e-01
+PDE loss in 5000th epoch:  9.426577e+07. Last save epoch and best loss so far: 4935,  9.415659e+07. Current error  7.711755e-01
+PDE loss in 5100th epoch:  9.416673e+07. Last save epoch and best loss so far: 5086,  9.408402e+07. Current error  7.773233e-01
+PDE loss in 5200th epoch:  9.403238e+07. Last save epoch and best loss so far: 5199,  9.403281e+07. Current error  7.816940e-01
+PDE loss in 5300th epoch:  9.399392e+07. Last save epoch and best loss so far: 5299,  9.399453e+07. Current error  7.812880e-01
+PDE loss in 5400th epoch:  9.441640e+07. Last save epoch and best loss so far: 5329,  9.397981e+07. Current error  7.747646e-01
+PDE loss in 5500th epoch:  9.491039e+07. Last save epoch and best loss so far: 5447,  9.393906e+07. Current error  7.432185e-01
+PDE loss in 5600th epoch:  9.391478e+07. Last save epoch and best loss so far: 5523,  9.390939e+07. Current error  7.779774e-01
+PDE loss in 5700th epoch:  9.393342e+07. Last save epoch and best loss so far: 5622,  9.386829e+07. Current error  7.761775e-01
+PDE loss in 5800th epoch:  9.390438e+07. Last save epoch and best loss so far: 5736,  9.382893e+07. Current error  7.631846e-01
+PDE loss in 5900th epoch:  9.411349e+07. Last save epoch and best loss so far: 5858,  9.378486e+07. Current error  7.858176e-01
+PDE loss in 6000th epoch:  9.374030e+07. Last save epoch and best loss so far: 5997,  9.373934e+07. Current error  7.767576e-01
+PDE loss in 6100th epoch:  1.006030e+08. Last save epoch and best loss so far: 6075,  9.371728e+07. Current error  8.202908e-01
+PDE loss in 6200th epoch:  9.367797e+07. Last save epoch and best loss so far: 6199,  9.367819e+07. Current error  7.759524e-01
+PDE loss in 6300th epoch:  9.365425e+07. Last save epoch and best loss so far: 6297,  9.365037e+07. Current error  7.716666e-01
+PDE loss in 6400th epoch:  9.362966e+07. Last save epoch and best loss so far: 6392,  9.362822e+07. Current error  7.755848e-01
+PDE loss in 6500th epoch:  9.376000e+07. Last save epoch and best loss so far: 6456,  9.360466e+07. Current error  7.587534e-01
+PDE loss in 6600th epoch:  9.356591e+07. Last save epoch and best loss so far: 6599,  9.356627e+07. Current error  7.730442e-01
+PDE loss in 6700th epoch:  9.358765e+07. Last save epoch and best loss so far: 6626,  9.355902e+07. Current error  7.626806e-01
+PDE loss in 6800th epoch:  9.351664e+07. Last save epoch and best loss so far: 6799,  9.351691e+07. Current error  7.756891e-01
+PDE loss in 6900th epoch:  9.351436e+07. Last save epoch and best loss so far: 6897,  9.349838e+07. Current error  7.771750e-01
+PDE loss in 7000th epoch:  9.347763e+07. Last save epoch and best loss so far: 6993,  9.347042e+07. Current error  7.711638e-01
+PDE loss in 7100th epoch:  9.344657e+07. Last save epoch and best loss so far: 7099,  9.344746e+07. Current error  7.693769e-01
+PDE loss in 7200th epoch:  9.352016e+07. Last save epoch and best loss so far: 7162,  9.343090e+07. Current error  7.694392e-01
+PDE loss in 7300th epoch:  9.340616e+07. Last save epoch and best loss so far: 7293,  9.340250e+07. Current error  7.698076e-01
+PDE loss in 7400th epoch:  9.337890e+07. Last save epoch and best loss so far: 7399,  9.337859e+07. Current error  7.691045e-01
+PDE loss in 7500th epoch:  9.337091e+07. Last save epoch and best loss so far: 7497,  9.337013e+07. Current error  7.680618e-01
+PDE loss in 7600th epoch:  9.338379e+07. Last save epoch and best loss so far: 7533,  9.335178e+07. Current error  7.623902e-01
+PDE loss in 7700th epoch:  9.358749e+07. Last save epoch and best loss so far: 7643,  9.332682e+07. Current error  7.595663e-01
+PDE loss in 7800th epoch:  9.336814e+07. Last save epoch and best loss so far: 7788,  9.329645e+07. Current error  7.560928e-01
+PDE loss in 7900th epoch:  9.333057e+07. Last save epoch and best loss so far: 7788,  9.329645e+07. Current error  7.630048e-01
+PDE loss in 8000th epoch:  9.330267e+07. Last save epoch and best loss so far: 7918,  9.327034e+07. Current error  7.724303e-01
+PDE loss in 8100th epoch:  9.407583e+07. Last save epoch and best loss so far: 8066,  9.324064e+07. Current error  7.422979e-01
+PDE loss in 8200th epoch:  9.322296e+07. Last save epoch and best loss so far: 8199,  9.322613e+07. Current error  7.671802e-01
+PDE loss in 8300th epoch:  9.321900e+07. Last save epoch and best loss so far: 8292,  9.320494e+07. Current error  7.691317e-01
+PDE loss in 8400th epoch:  9.318413e+07. Last save epoch and best loss so far: 8328,  9.319155e+07. Current error  7.615804e-01
+PDE loss in 8500th epoch:  9.459337e+07. Last save epoch and best loss so far: 8460,  9.316259e+07. Current error  7.605236e-01
+PDE loss in 8600th epoch:  9.319246e+07. Last save epoch and best loss so far: 8529,  9.314925e+07. Current error  7.722732e-01
+PDE loss in 8700th epoch:  9.318885e+07. Last save epoch and best loss so far: 8624,  9.312491e+07. Current error  7.546651e-01
+PDE loss in 8800th epoch:  9.309709e+07. Last save epoch and best loss so far: 8799,  9.310050e+07. Current error  7.688487e-01
+PDE loss in 8900th epoch:  9.285699e+07. Last save epoch and best loss so far: 8898,  9.286229e+07. Current error  7.497408e-01
+PDE loss in 9000th epoch:  4.652964e+07. Last save epoch and best loss so far: 8999,  4.754022e+07. Current error  3.889370e-01
+PDE loss in 9100th epoch:  1.813965e+07. Last save epoch and best loss so far: 9099,  1.826544e+07. Current error  3.341736e-01
+PDE loss in 9200th epoch:  1.256666e+07. Last save epoch and best loss so far: 9199,  1.258496e+07. Current error  2.558248e-01
+PDE loss in 9300th epoch:  1.039893e+07. Last save epoch and best loss so far: 9296,  1.027926e+07. Current error  1.740884e-01
+PDE loss in 9400th epoch:  8.809907e+06. Last save epoch and best loss so far: 9396,  8.779678e+06. Current error  1.579521e-01
+PDE loss in 9500th epoch:  8.163621e+06. Last save epoch and best loss so far: 9495,  7.932350e+06. Current error  2.803440e-01
+PDE loss in 9600th epoch:  6.979105e+06. Last save epoch and best loss so far: 9599,  7.037608e+06. Current error  1.355497e-01
+PDE loss in 9700th epoch:  6.280909e+06. Last save epoch and best loss so far: 9698,  6.269858e+06. Current error  1.758931e-01
+PDE loss in 9800th epoch:  5.771538e+06. Last save epoch and best loss so far: 9799,  5.778866e+06. Current error  1.517726e-01
+PDE loss in 9900th epoch:  1.016583e+07. Last save epoch and best loss so far: 9880,  5.481216e+06. Current error  1.472479e-01
+PDE loss in 10000th epoch:  6.153981e+06. Last save epoch and best loss so far: 9965,  5.157911e+06. Current error  1.164130e-01
+PDE loss in 10100th epoch:  4.802486e+06. Last save epoch and best loss so far: 10098,  4.776457e+06. Current error  1.193382e-01
+PDE loss in 10200th epoch:  5.367339e+06. Last save epoch and best loss so far: 10139,  4.653010e+06. Current error  1.856352e-01
+PDE loss in 10300th epoch:  4.377211e+06. Last save epoch and best loss so far: 10297,  4.330945e+06. Current error  1.904255e-01
+PDE loss in 10400th epoch:  5.219192e+06. Last save epoch and best loss so far: 10387,  4.120725e+06. Current error  1.562586e-01
+PDE loss in 10500th epoch:  4.160928e+06. Last save epoch and best loss so far: 10496,  3.955322e+06. Current error  1.722032e-01
+PDE loss in 10600th epoch:  6.903664e+06. Last save epoch and best loss so far: 10579,  3.845966e+06. Current error  2.156861e-01
+PDE loss in 10700th epoch:  3.703229e+06. Last save epoch and best loss so far: 10697,  3.645604e+06. Current error  1.837174e-01
+PDE loss in 10800th epoch:  3.637343e+06. Last save epoch and best loss so far: 10786,  3.506402e+06. Current error  1.204528e-01
+PDE loss in 10900th epoch:  3.413267e+06. Last save epoch and best loss so far: 10899,  3.391180e+06. Current error  1.113288e-01
+PDE loss in 11000th epoch:  5.075691e+06. Last save epoch and best loss so far: 10909,  3.365036e+06. Current error  3.137303e-01
+PDE loss in 11100th epoch:  4.244584e+06. Last save epoch and best loss so far: 11061,  3.204504e+06. Current error  1.145625e-01
+PDE loss in 11200th epoch:  3.371296e+06. Last save epoch and best loss so far: 11146,  3.106556e+06. Current error  1.331716e-01
+PDE loss in 11300th epoch:  3.104619e+06. Last save epoch and best loss so far: 11266,  3.061895e+06. Current error  1.214886e-01
+PDE loss in 11400th epoch:  3.401635e+06. Last save epoch and best loss so far: 11386,  2.901964e+06. Current error  1.101457e-01
+PDE loss in 11500th epoch:  3.048494e+06. Last save epoch and best loss so far: 11447,  2.894204e+06. Current error  7.666486e-02
+PDE loss in 11600th epoch:  2.880911e+06. Last save epoch and best loss so far: 11598,  2.772173e+06. Current error  1.068950e-01
+PDE loss in 11700th epoch:  3.453814e+06. Last save epoch and best loss so far: 11612,  2.743049e+06. Current error  1.769078e-01
+PDE loss in 11800th epoch:  2.644052e+06. Last save epoch and best loss so far: 11738,  2.645889e+06. Current error  7.405280e-02
+PDE loss in 11900th epoch:  2.590857e+06. Last save epoch and best loss so far: 11835,  2.588039e+06. Current error  1.078914e-01
+PDE loss in 12000th epoch:  6.611648e+06. Last save epoch and best loss so far: 11980,  2.508881e+06. Current error  4.342669e-01
+PDE loss in 12100th epoch:  3.194620e+06. Last save epoch and best loss so far: 12069,  2.461975e+06. Current error  1.389193e-01
+PDE loss in 12200th epoch:  2.569362e+06. Last save epoch and best loss so far: 12186,  2.441221e+06. Current error  1.534819e-01
+PDE loss in 12300th epoch:  2.609317e+06. Last save epoch and best loss so far: 12257,  2.368659e+06. Current error  6.163944e-02
+PDE loss in 12400th epoch:  2.467496e+06. Last save epoch and best loss so far: 12335,  2.343212e+06. Current error  1.065657e-01
+PDE loss in 12500th epoch:  2.372562e+06. Last save epoch and best loss so far: 12498,  2.271992e+06. Current error  1.707587e-01
+PDE loss in 12600th epoch:  2.218355e+06. Last save epoch and best loss so far: 12597,  2.216994e+06. Current error  1.163821e-01
+PDE loss in 12700th epoch:  4.106501e+06. Last save epoch and best loss so far: 12674,  2.209253e+06. Current error  2.613917e-01
+PDE loss in 12800th epoch:  2.229064e+06. Last save epoch and best loss so far: 12797,  2.152633e+06. Current error  1.514212e-01
+PDE loss in 12900th epoch:  2.121486e+06. Last save epoch and best loss so far: 12898,  2.104162e+06. Current error  9.977777e-02
+PDE loss in 13000th epoch:  2.287464e+06. Last save epoch and best loss so far: 12940,  2.084518e+06. Current error  1.746439e-01
+PDE loss in 13100th epoch:  2.250426e+06. Last save epoch and best loss so far: 13047,  2.053538e+06. Current error  1.228316e-01
+PDE loss in 13200th epoch:  2.021295e+06. Last save epoch and best loss so far: 13198,  2.016914e+06. Current error  1.085441e-01
+PDE loss in 13300th epoch:  4.210386e+06. Last save epoch and best loss so far: 13277,  1.997682e+06. Current error  2.693268e-01
+PDE loss in 13400th epoch:  2.202264e+06. Last save epoch and best loss so far: 13346,  1.969562e+06. Current error  5.996852e-02
+PDE loss in 13500th epoch:  2.223620e+06. Last save epoch and best loss so far: 13421,  1.965667e+06. Current error  8.149201e-02
+PDE loss in 13600th epoch:  2.409698e+06. Last save epoch and best loss so far: 13568,  1.944176e+06. Current error  1.309489e-01
+PDE loss in 13700th epoch:  5.717611e+06. Last save epoch and best loss so far: 13675,  1.932950e+06. Current error  1.320425e-01
+PDE loss in 13800th epoch:  1.868490e+06. Last save epoch and best loss so far: 13792,  1.884134e+06. Current error  1.246630e-01
+PDE loss in 13900th epoch:  2.190504e+06. Last save epoch and best loss so far: 13812,  1.847583e+06. Current error  9.908938e-02
+PDE loss in 14000th epoch:  1.966556e+06. Last save epoch and best loss so far: 13991,  1.829406e+06. Current error  5.302115e-02
+PDE loss in 14100th epoch:  1.909089e+06. Last save epoch and best loss so far: 14075,  1.816076e+06. Current error  6.061741e-02
+PDE loss in 14200th epoch:  1.825876e+06. Last save epoch and best loss so far: 14135,  1.757000e+06. Current error  6.209958e-02
+PDE loss in 14300th epoch:  1.787026e+06. Last save epoch and best loss so far: 14135,  1.757000e+06. Current error  6.480698e-02
+PDE loss in 14400th epoch:  2.660672e+06. Last save epoch and best loss so far: 14135,  1.757000e+06. Current error  1.476642e-01
+PDE loss in 14500th epoch:  2.007138e+06. Last save epoch and best loss so far: 14489,  1.754142e+06. Current error  8.839380e-02
+PDE loss in 14600th epoch:  1.807243e+06. Last save epoch and best loss so far: 14593,  1.685547e+06. Current error  8.584296e-02
+PDE loss in 14700th epoch:  1.793434e+06. Last save epoch and best loss so far: 14645,  1.655726e+06. Current error  1.150269e-01
+PDE loss in 14800th epoch:  2.032442e+06. Last save epoch and best loss so far: 14645,  1.655726e+06. Current error  1.100303e-01
+PDE loss in 14900th epoch:  1.694138e+06. Last save epoch and best loss so far: 14838,  1.624144e+06. Current error  1.005286e-01
+PDE loss in 15000th epoch:  1.643515e+06. Last save epoch and best loss so far: 14916,  1.603973e+06. Current error  6.173993e-02
+PDE loss in 15100th epoch:  1.886340e+06. Last save epoch and best loss so far: 14916,  1.603973e+06. Current error  7.865114e-02
+PDE loss in 15200th epoch:  2.604690e+06. Last save epoch and best loss so far: 14916,  1.603973e+06. Current error  1.509750e-01
+PDE loss in 15300th epoch:  2.290914e+06. Last save epoch and best loss so far: 15270,  1.558853e+06. Current error  9.053637e-02
+PDE loss in 15400th epoch:  1.607806e+06. Last save epoch and best loss so far: 15321,  1.555461e+06. Current error  9.945016e-02
+PDE loss in 15500th epoch:  2.647424e+06. Last save epoch and best loss so far: 15457,  1.528443e+06. Current error  1.541940e-01
+PDE loss in 15600th epoch:  1.854116e+06. Last save epoch and best loss so far: 15457,  1.528443e+06. Current error  1.538168e-01
+PDE loss in 15700th epoch:  2.049708e+06. Last save epoch and best loss so far: 15639,  1.492494e+06. Current error  7.258819e-02
+PDE loss in 15800th epoch:  1.660074e+06. Last save epoch and best loss so far: 15639,  1.492494e+06. Current error  1.205589e-01
+PDE loss in 15900th epoch:  1.635863e+06. Last save epoch and best loss so far: 15847,  1.477190e+06. Current error  1.537337e-01
+PDE loss in 16000th epoch:  1.506673e+06. Last save epoch and best loss so far: 15847,  1.477190e+06. Current error  5.755288e-02
+PDE loss in 16100th epoch:  1.469884e+06. Last save epoch and best loss so far: 16024,  1.431320e+06. Current error  8.893403e-02
+PDE loss in 16200th epoch:  1.396808e+06. Last save epoch and best loss so far: 16199,  1.397712e+06. Current error  8.349883e-02
+PDE loss in 16300th epoch:  1.662107e+06. Last save epoch and best loss so far: 16286,  1.393372e+06. Current error  8.877629e-02
+PDE loss in 16400th epoch:  1.528483e+06. Last save epoch and best loss so far: 16380,  1.376299e+06. Current error  6.735995e-02
+PDE loss in 16500th epoch:  1.771805e+06. Last save epoch and best loss so far: 16467,  1.373105e+06. Current error  2.046756e-01
+PDE loss in 16600th epoch:  1.445169e+06. Last save epoch and best loss so far: 16581,  1.357971e+06. Current error  5.490150e-02
+PDE loss in 16700th epoch:  1.486803e+06. Last save epoch and best loss so far: 16581,  1.357971e+06. Current error  8.473413e-02
+PDE loss in 16800th epoch:  1.395109e+06. Last save epoch and best loss so far: 16581,  1.357971e+06. Current error  7.793353e-02
+PDE loss in 16900th epoch:  2.306932e+06. Last save epoch and best loss so far: 16866,  1.332755e+06. Current error  1.057108e-01
+PDE loss in 17000th epoch:  1.347221e+06. Last save epoch and best loss so far: 16991,  1.313570e+06. Current error  9.757051e-02
+PDE loss in 17100th epoch:  1.687608e+06. Last save epoch and best loss so far: 16991,  1.313570e+06. Current error  7.366974e-02
+PDE loss in 17200th epoch:  1.282813e+06. Last save epoch and best loss so far: 17198,  1.281958e+06. Current error  9.137917e-02
+PDE loss in 17300th epoch:  2.608126e+06. Last save epoch and best loss so far: 17198,  1.281958e+06. Current error  1.067495e-01
+PDE loss in 17400th epoch:  1.702010e+06. Last save epoch and best loss so far: 17361,  1.269011e+06. Current error  2.127837e-01
+PDE loss in 17500th epoch:  1.537388e+06. Last save epoch and best loss so far: 17442,  1.267403e+06. Current error  5.518040e-02
+PDE loss in 17600th epoch:  1.554003e+06. Last save epoch and best loss so far: 17576,  1.264382e+06. Current error  7.436165e-02
+PDE loss in 17700th epoch:  6.139113e+06. Last save epoch and best loss so far: 17668,  1.250130e+06. Current error  3.626785e-01
+PDE loss in 17800th epoch:  1.278114e+06. Last save epoch and best loss so far: 17795,  1.237258e+06. Current error  5.181302e-02
+PDE loss in 17900th epoch:  9.621150e+06. Last save epoch and best loss so far: 17867,  1.226173e+06. Current error  2.814021e-01
+PDE loss in 18000th epoch:  1.754312e+06. Last save epoch and best loss so far: 17867,  1.226173e+06. Current error  1.610958e-01
+PDE loss in 18100th epoch:  1.396915e+06. Last save epoch and best loss so far: 18094,  1.216835e+06. Current error  1.205146e-01
+PDE loss in 18200th epoch:  1.291425e+06. Last save epoch and best loss so far: 18133,  1.194695e+06. Current error  1.078191e-01
+PDE loss in 18300th epoch:  1.195905e+06. Last save epoch and best loss so far: 18284,  1.182335e+06. Current error  7.084583e-02
+PDE loss in 18400th epoch:  1.818717e+06. Last save epoch and best loss so far: 18362,  1.182148e+06. Current error  2.678424e-01
+PDE loss in 18500th epoch:  1.189714e+06. Last save epoch and best loss so far: 18362,  1.182148e+06. Current error  5.598655e-02
+PDE loss in 18600th epoch:  2.485150e+06. Last save epoch and best loss so far: 18574,  1.163453e+06. Current error  1.597154e-01
+PDE loss in 18700th epoch:  1.688421e+06. Last save epoch and best loss so far: 18659,  1.153748e+06. Current error  1.054110e-01
+PDE loss in 18800th epoch:  1.175145e+06. Last save epoch and best loss so far: 18659,  1.153748e+06. Current error  8.173022e-02
+PDE loss in 18900th epoch:  1.135832e+06. Last save epoch and best loss so far: 18892,  1.134346e+06. Current error  8.534528e-02
+PDE loss in 19000th epoch:  1.133430e+06. Last save epoch and best loss so far: 18992,  1.129265e+06. Current error  6.239564e-02
+PDE loss in 19100th epoch:  1.138770e+06. Last save epoch and best loss so far: 19090,  1.121205e+06. Current error  7.819100e-02
+PDE loss in 19200th epoch:  1.114270e+06. Last save epoch and best loss so far: 19197,  1.111173e+06. Current error  6.634218e-02
+PDE loss in 19300th epoch:  1.378133e+06. Last save epoch and best loss so far: 19197,  1.111173e+06. Current error  1.968661e-01
+PDE loss in 19400th epoch:  1.560658e+06. Last save epoch and best loss so far: 19345,  1.102285e+06. Current error  8.455983e-02
+PDE loss in 19500th epoch:  1.154739e+06. Last save epoch and best loss so far: 19345,  1.102285e+06. Current error  6.551240e-02
+PDE loss in 19600th epoch:  4.159502e+06. Last save epoch and best loss so far: 19345,  1.102285e+06. Current error  4.131795e-01
+PDE loss in 19700th epoch:  1.590520e+06. Last save epoch and best loss so far: 19653,  1.099039e+06. Current error  5.541302e-02
+PDE loss in 19800th epoch:  1.097644e+06. Last save epoch and best loss so far: 19712,  1.086231e+06. Current error  3.396650e-02
+PDE loss in 19900th epoch:  1.201638e+06. Last save epoch and best loss so far: 19842,  1.066932e+06. Current error  5.234537e-02
+PDE loss in 20000th epoch:  1.624207e+06. Last save epoch and best loss so far: 19842,  1.066932e+06. Current error  1.699068e-01
+PDE loss in 20100th epoch:  1.403733e+06. Last save epoch and best loss so far: 20054,  1.060248e+06. Current error  5.868258e-02
+PDE loss in 20200th epoch:  1.963627e+06. Last save epoch and best loss so far: 20140,  1.054891e+06. Current error  2.495419e-01
+PDE loss in 20300th epoch:  1.335480e+06. Last save epoch and best loss so far: 20241,  1.047892e+06. Current error  8.626885e-02
+PDE loss in 20400th epoch:  1.060855e+06. Last save epoch and best loss so far: 20241,  1.047892e+06. Current error  5.688558e-02
+PDE loss in 20500th epoch:  1.222248e+06. Last save epoch and best loss so far: 20241,  1.047892e+06. Current error  6.285890e-02
+PDE loss in 20600th epoch:  1.317664e+06. Last save epoch and best loss so far: 20563,  1.040686e+06. Current error  1.752266e-01
+PDE loss in 20700th epoch:  3.168044e+06. Last save epoch and best loss so far: 20563,  1.040686e+06. Current error  1.692065e-01
+PDE loss in 20800th epoch:  1.293295e+06. Last save epoch and best loss so far: 20563,  1.040686e+06. Current error  5.218461e-02
+PDE loss in 20900th epoch:  1.127006e+06. Last save epoch and best loss so far: 20563,  1.040686e+06. Current error  1.117095e-01
+PDE loss in 21000th epoch:  1.020433e+06. Last save epoch and best loss so far: 20920,  1.014704e+06. Current error  6.263197e-02
+PDE loss in 21100th epoch:  1.970585e+06. Last save epoch and best loss so far: 21007,  1.014645e+06. Current error  8.815495e-02
+PDE loss in 21200th epoch:  1.200098e+06. Last save epoch and best loss so far: 21007,  1.014645e+06. Current error  1.054766e-01
+PDE loss in 21300th epoch:  4.481275e+06. Last save epoch and best loss so far: 21007,  1.014645e+06. Current error  1.507845e-01
+PDE loss in 21400th epoch:  1.373234e+06. Last save epoch and best loss so far: 21355,  9.993189e+05. Current error  9.195448e-02
+PDE loss in 21500th epoch:  1.153954e+06. Last save epoch and best loss so far: 21494,  9.926536e+05. Current error  4.549464e-02
+PDE loss in 21600th epoch:  4.401586e+06. Last save epoch and best loss so far: 21561,  9.853971e+05. Current error  2.125699e-01
+PDE loss in 21700th epoch:  1.414923e+06. Last save epoch and best loss so far: 21681,  9.653937e+05. Current error  1.438586e-01
+PDE loss in 21800th epoch:  9.950051e+05. Last save epoch and best loss so far: 21787,  9.568516e+05. Current error  7.395921e-02
+PDE loss in 21900th epoch:  2.076478e+06. Last save epoch and best loss so far: 21787,  9.568516e+05. Current error  2.270149e-01
+PDE loss in 22000th epoch:  1.012212e+06. Last save epoch and best loss so far: 21787,  9.568516e+05. Current error  3.483659e-02
+PDE loss in 22100th epoch:  3.292271e+06. Last save epoch and best loss so far: 21787,  9.568516e+05. Current error  2.007492e-01
+PDE loss in 22200th epoch:  1.039561e+06. Last save epoch and best loss so far: 21787,  9.568516e+05. Current error  1.017387e-01
+PDE loss in 22300th epoch:  9.424661e+05. Last save epoch and best loss so far: 22297,  9.392928e+05. Current error  7.163735e-02
+PDE loss in 22400th epoch:  5.700105e+06. Last save epoch and best loss so far: 22297,  9.392928e+05. Current error  4.117409e-01
+PDE loss in 22500th epoch:  1.705478e+06. Last save epoch and best loss so far: 22464,  9.304238e+05. Current error  1.317294e-01
+PDE loss in 22600th epoch:  2.018644e+06. Last save epoch and best loss so far: 22464,  9.304238e+05. Current error  8.053023e-02
+PDE loss in 22700th epoch:  1.338255e+06. Last save epoch and best loss so far: 22464,  9.304238e+05. Current error  1.334007e-01
+PDE loss in 22800th epoch:  1.574495e+06. Last save epoch and best loss so far: 22736,  9.218912e+05. Current error  1.671122e-01
+PDE loss in 22900th epoch:  1.043782e+06. Last save epoch and best loss so far: 22736,  9.218912e+05. Current error  5.344699e-02
+PDE loss in 23000th epoch:  9.850129e+05. Last save epoch and best loss so far: 22987,  9.064644e+05. Current error  6.241767e-02
+PDE loss in 23100th epoch:  1.269346e+06. Last save epoch and best loss so far: 22987,  9.064644e+05. Current error  8.341842e-02
+PDE loss in 23200th epoch:  1.383798e+06. Last save epoch and best loss so far: 22987,  9.064644e+05. Current error  1.071719e-01
+PDE loss in 23300th epoch:  1.152269e+06. Last save epoch and best loss so far: 22987,  9.064644e+05. Current error  6.195169e-02
+PDE loss in 23400th epoch:  1.249030e+06. Last save epoch and best loss so far: 22987,  9.064644e+05. Current error  5.640243e-02
+PDE loss in 23500th epoch:  9.327889e+05. Last save epoch and best loss so far: 22987,  9.064644e+05. Current error  6.953212e-02
+PDE loss in 23600th epoch:  1.014186e+06. Last save epoch and best loss so far: 23522,  8.839344e+05. Current error  4.129252e-02
+PDE loss in 23700th epoch:  2.929036e+06. Last save epoch and best loss so far: 23522,  8.839344e+05. Current error  2.884325e-01
+PDE loss in 23800th epoch:  2.448003e+06. Last save epoch and best loss so far: 23522,  8.839344e+05. Current error  1.565340e-01
+PDE loss in 23900th epoch:  9.744768e+05. Last save epoch and best loss so far: 23522,  8.839344e+05. Current error  1.019436e-01
+PDE loss in 24000th epoch:  2.130522e+06. Last save epoch and best loss so far: 23522,  8.839344e+05. Current error  2.962275e-01
+PDE loss in 24100th epoch:  1.474328e+06. Last save epoch and best loss so far: 24075,  8.680826e+05. Current error  1.503104e-01
+PDE loss in 24200th epoch:  1.504400e+06. Last save epoch and best loss so far: 24075,  8.680826e+05. Current error  2.258346e-01
+PDE loss in 24300th epoch:  8.943056e+05. Last save epoch and best loss so far: 24075,  8.680826e+05. Current error  6.208940e-02
+PDE loss in 24400th epoch:  8.538724e+05. Last save epoch and best loss so far: 24388,  8.522441e+05. Current error  7.838692e-02
+PDE loss in 24500th epoch:  8.598957e+05. Last save epoch and best loss so far: 24401,  8.513228e+05. Current error  4.669927e-02
+PDE loss in 24600th epoch:  8.561353e+05. Last save epoch and best loss so far: 24590,  8.485480e+05. Current error  5.362690e-02
+PDE loss in 24700th epoch:  2.464812e+06. Last save epoch and best loss so far: 24684,  8.477071e+05. Current error  1.629839e-01
+PDE loss in 24800th epoch:  9.268515e+05. Last save epoch and best loss so far: 24684,  8.477071e+05. Current error  8.333607e-02
+PDE loss in 24900th epoch:  8.511390e+05. Last save epoch and best loss so far: 24805,  8.354055e+05. Current error  4.512078e-02
+PDE loss in 25000th epoch:  8.861518e+05. Last save epoch and best loss so far: 24805,  8.354055e+05. Current error  7.963367e-02
+PDE loss in 25100th epoch:  1.591869e+06. Last save epoch and best loss so far: 24805,  8.354055e+05. Current error  2.346145e-01
+PDE loss in 25200th epoch:  1.006204e+06. Last save epoch and best loss so far: 24805,  8.354055e+05. Current error  5.408727e-02
+PDE loss in 25300th epoch:  2.162366e+06. Last save epoch and best loss so far: 24805,  8.354055e+05. Current error  1.082997e-01
+PDE loss in 25400th epoch:  1.066770e+06. Last save epoch and best loss so far: 24805,  8.354055e+05. Current error  6.520020e-02
+PDE loss in 25500th epoch:  2.221340e+06. Last save epoch and best loss so far: 24805,  8.354055e+05. Current error  1.149932e-01
+PDE loss in 25600th epoch:  8.357530e+05. Last save epoch and best loss so far: 25598,  8.296366e+05. Current error  4.055847e-02
+PDE loss in 25700th epoch:  1.167468e+06. Last save epoch and best loss so far: 25598,  8.296366e+05. Current error  1.161777e-01
+PDE loss in 25800th epoch:  8.330100e+05. Last save epoch and best loss so far: 25785,  8.135769e+05. Current error  8.535314e-02
+PDE loss in 25900th epoch:  3.103395e+06. Last save epoch and best loss so far: 25785,  8.135769e+05. Current error  1.996426e-01
+PDE loss in 26000th epoch:  9.069809e+05. Last save epoch and best loss so far: 25785,  8.135769e+05. Current error  9.510935e-02
+PDE loss in 26100th epoch:  1.034428e+06. Last save epoch and best loss so far: 25785,  8.135769e+05. Current error  6.167391e-02
+PDE loss in 26200th epoch:  8.874074e+05. Last save epoch and best loss so far: 25785,  8.135769e+05. Current error  7.118187e-02
+PDE loss in 26300th epoch:  1.260381e+06. Last save epoch and best loss so far: 25785,  8.135769e+05. Current error  2.663047e-01
+PDE loss in 26400th epoch:  4.483283e+06. Last save epoch and best loss so far: 26368,  7.980035e+05. Current error  3.405464e-01
+PDE loss in 26500th epoch:  1.026453e+06. Last save epoch and best loss so far: 26453,  7.955672e+05. Current error  9.370472e-02
+PDE loss in 26600th epoch:  8.020152e+05. Last save epoch and best loss so far: 26583,  7.841886e+05. Current error  4.487208e-02
+PDE loss in 26700th epoch:  1.405878e+06. Last save epoch and best loss so far: 26583,  7.841886e+05. Current error  9.164964e-02
+PDE loss in 26800th epoch:  2.272132e+06. Last save epoch and best loss so far: 26583,  7.841886e+05. Current error  2.691364e-01
+PDE loss in 26900th epoch:  9.829713e+05. Last save epoch and best loss so far: 26583,  7.841886e+05. Current error  1.752731e-01
+PDE loss in 27000th epoch:  3.716317e+06. Last save epoch and best loss so far: 26583,  7.841886e+05. Current error  2.869581e-01
+PDE loss in 27100th epoch:  9.163599e+05. Last save epoch and best loss so far: 27046,  7.750272e+05. Current error  8.965443e-02
+PDE loss in 27200th epoch:  8.038935e+05. Last save epoch and best loss so far: 27046,  7.750272e+05. Current error  5.349208e-02
+PDE loss in 27300th epoch:  8.859718e+05. Last save epoch and best loss so far: 27209,  7.644970e+05. Current error  8.057444e-02
+PDE loss in 27400th epoch:  2.734865e+06. Last save epoch and best loss so far: 27209,  7.644970e+05. Current error  2.281013e-01
+PDE loss in 27500th epoch:  1.315134e+06. Last save epoch and best loss so far: 27209,  7.644970e+05. Current error  1.224285e-01
+PDE loss in 27600th epoch:  1.018836e+06. Last save epoch and best loss so far: 27209,  7.644970e+05. Current error  8.865037e-02
+PDE loss in 27700th epoch:  7.937904e+05. Last save epoch and best loss so far: 27209,  7.644970e+05. Current error  5.285494e-02
+PDE loss in 27800th epoch:  7.660706e+05. Last save epoch and best loss so far: 27797,  7.511023e+05. Current error  5.310829e-02
+PDE loss in 27900th epoch:  2.176784e+06. Last save epoch and best loss so far: 27797,  7.511023e+05. Current error  7.843478e-02
+PDE loss in 28000th epoch:  1.170956e+06. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  1.540825e-01
+PDE loss in 28100th epoch:  2.786303e+06. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  7.725750e-02
+PDE loss in 28200th epoch:  1.906936e+06. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  2.394963e-01
+PDE loss in 28300th epoch:  1.056478e+06. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  8.044212e-02
+PDE loss in 28400th epoch:  1.168949e+06. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  5.054937e-02
+PDE loss in 28500th epoch:  2.185151e+06. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  2.904042e-01
+PDE loss in 28600th epoch:  9.348522e+05. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  2.840719e-02
+PDE loss in 28700th epoch:  2.053706e+06. Last save epoch and best loss so far: 27976,  7.443394e+05. Current error  1.714991e-01
+PDE loss in 28800th epoch:  1.312567e+06. Last save epoch and best loss so far: 28750,  7.436600e+05. Current error  1.115696e-01
+PDE loss in 28900th epoch:  1.043814e+06. Last save epoch and best loss so far: 28750,  7.436600e+05. Current error  1.229921e-01
+PDE loss in 29000th epoch:  1.676679e+06. Last save epoch and best loss so far: 28750,  7.436600e+05. Current error  1.192796e-01
+PDE loss in 29100th epoch:  7.670764e+05. Last save epoch and best loss so far: 28750,  7.436600e+05. Current error  7.226666e-02
+PDE loss in 29200th epoch:  1.298938e+06. Last save epoch and best loss so far: 29163,  7.411871e+05. Current error  9.555128e-02
+PDE loss in 29300th epoch:  1.257476e+06. Last save epoch and best loss so far: 29285,  7.314255e+05. Current error  2.477225e-01
+PDE loss in 29400th epoch:  9.939054e+05. Last save epoch and best loss so far: 29369,  7.204144e+05. Current error  5.067554e-02
+PDE loss in 29500th epoch:  7.396770e+05. Last save epoch and best loss so far: 29369,  7.204144e+05. Current error  3.382181e-02
+PDE loss in 29600th epoch:  2.948987e+06. Last save epoch and best loss so far: 29369,  7.204144e+05. Current error  3.326706e-01
+PDE loss in 29700th epoch:  8.476814e+05. Last save epoch and best loss so far: 29631,  7.142714e+05. Current error  7.381569e-02
+PDE loss in 29800th epoch:  8.577689e+05. Last save epoch and best loss so far: 29631,  7.142714e+05. Current error  9.539813e-02
+PDE loss in 29900th epoch:  7.720931e+05. Last save epoch and best loss so far: 29631,  7.142714e+05. Current error  3.123182e-02
+Current loss  9.279328e+05, Best loss  7.142714e+05. Restoring best model weights.

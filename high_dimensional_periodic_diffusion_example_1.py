@@ -4,13 +4,28 @@ Solve High dimensional periodic diffusion equation using PINN
 
 Example 1: 
     exact solution: \Phi(x) = \sin{4 \pi x_1} \sin{2 \pi x_1} 
+    
+List of arguments:
+    #1 : input_dim - number of dimensions of the problem
+    #2 : N - number of sampling
+    #3 : \nu - parameter \nu
+    #4 : epochs - number of epochs
+    #5 : M_error - number of sampling when measure error
+    #6 : file_name - name of the output file
+    #7 : N_runs - the number of runs
+        
+Output:
+    PDE_loss1: loss function of the PDE vs. epoch
+    N_loss1: loss function of the neural network vs. epoch
+    error_epoch: error vs. epoch, the error is measured every 100 epoches
 """
 
-
+import sys
 import numpy as np
 import tensorflow as tf
 from keras import backend as K
 
+print(sys.argv)
 
 physical_devices = tf.config.list_physical_devices('GPU')
 print("Num GPUs:", len(physical_devices))
@@ -136,7 +151,7 @@ def init_model(nb_hidden_layers, nb_nodes_per_layer, m_periodic, n_periodic, ome
 nb_hidden_layers = 3
 nb_nodes_per_layer = 30
 
-input_dim = 6
+input_dim = int(sys.argv[1])
 m_periodic = 11
 n_periodic = 30
 
@@ -150,9 +165,10 @@ print(model5.summary())
 
 a = 0
 b = 1
-N = 2000
+N = int(sys.argv[2])
 
-nu = 0.5
+nu = float(sys.argv[3])
+M_error = int(sys.argv[5])
 
 # Monte Carlo points in the domain
 
@@ -171,7 +187,7 @@ def diffusion_fcns(x):
 
 # Define the exact solution
 def exact_solu(x):
-    y = np.sin(4*np.pi*np.double(x[:, 0])) * np.sin(2*np.pi*np.double(x[:, 1]))
+    y = np.sin(4*np.pi*np.double(x[:, 2])) * np.sin(2*np.pi*np.double(x[:, 3]))
     return y
 
 # Compute the gradient and divergence of the exact solution numerically
@@ -189,13 +205,6 @@ def exact_grad_div(x):
         # six-order finite difference
         gradient[i] = (-1/60 * exact_solu(x - 3*dx*dx_i) + 3/20 * exact_solu(x - 2*dx*dx_i) - 3/4 * exact_solu(x - dx*dx_i) + 3/4 * exact_solu(x + dx*dx_i) - 3/20 * exact_solu(x + 2*dx*dx_i) + 1/60 * exact_solu(x + 3*dx*dx_i)) / dx
         divergence = divergence + ((1/90) * exact_solu(x - 3*dx*dx_i) -(3/20) * exact_solu(x - 2*dx*dx_i) + (3/2) * exact_solu(x - dx*dx_i) - (49/18) * exact_solu(x) + (3/2) * exact_solu(x + dx*dx_i) - (3/20) * exact_solu(x + 2*dx*dx_i) +(1/90) * exact_solu(x + 3*dx*dx_i)) / dx**2
-#         if (i == 0):
-#             print((1/90 * np.sin(4*np.pi*(x[:, 0]-3*dx)) * np.sin(2*np.pi*x[:, 1]) -3/20 * np.sin(4*np.pi*(x[:, 0]-2*dx)) * np.sin(2*np.pi*x[:, 1]) + 3/2 * np.sin(4*np.pi*(x[:, 0]-dx)) * np.sin(2*np.pi*x[:, 1]) - 49/18 * np.sin(4*np.pi*(x[:, 0])) * np.sin(2*np.pi*x[:, 1]) + 3/2 * np.sin(4*np.pi*(x[:, 0]+dx)) * np.sin(2*np.pi*x[:, 1]) - 3/20 * np.sin(4*np.pi*(x[:, 0]+2*dx)) * np.sin(2*np.pi*x[:, 1]) +1/90 * np.sin(4*np.pi*(x[:, 0]+3*dx)) * np.sin(2*np.pi*x[:, 1])) / dx**2 - (- 16 *np.pi**2 * np.sin(4*np.pi*x[:, 0]) * np.sin(2*np.pi*x[:, 1])))
-        
-    gradient0 = 4 * np.pi * np.cos(4*np.pi*x[:, 0]) * np.sin(2*np.pi*x[:, 1])
-    gradient1 = 2 * np.pi * np.sin(4*np.pi*x[:, 0]) * np.cos(2*np.pi*x[:, 1])
-    divergence1 = - 20 * np.pi**2 * np.sin(4*np.pi*x[:, 0]) * np.sin(2*np.pi*x[:, 1])
-#     print(norm(divergence1-divergence))
     
     return gradient, divergence
 
@@ -237,14 +246,9 @@ def trainStep_N_dimension(x, diffusion_x, grad_diffusion_x, exact_x, exact_grad_
         
         # Plug trial solution into ODE:
         divergence_error = div_N - exact_div_x
-#         grad_error[0] = grad_N[:, 0] - exact_grad_x[0]
-#         grad_error[1] = grad_N[:, 1] - exact_grad_x[1]
         N_error = N - exact_x
         
-#         eqn = - (1 + 1/4 * np.sin(2*np.pi*x[:, 0]) * np.sin(2*np.pi*x[:, 1])) *  divergence_error - \
-#         (np.pi/2 * np.cos(2*np.pi*x[:, 0]) * np.sin(2*np.pi*x[:, 1])) * grad_error[0] - \
-#         (np.pi/2 * np.sin(2*np.pi*x[:, 0]) * np.cos(2*np.pi*x[:, 1])) * grad_error[1] + nu * N_error
-        
+       
         eqn = - diffusion_x *  divergence_error  + nu * N_error 
         for i in range(x_dim):
             grad_error[i] = grad_N[:, i] - exact_grad_x[i]
@@ -289,7 +293,7 @@ def PINNtrain(x, epochs, model):
     exact_grad_x, exact_div_x = exact_grad_div(np.double(x.numpy()))
     
     # Sample points to test error
-    test_data_MC = np.random.uniform(0 ,1, (2*N,input_dim))
+    test_data_MC = np.random.uniform(0 ,1, (M_error ,input_dim))
     
     # Main training loop
     for i in range(epochs):
@@ -298,7 +302,7 @@ def PINNtrain(x, epochs, model):
         
         if (np.mod(i, 100)==0):
           z_model = model(test_data_MC)
-          z_model = tf.reshape(z_model, [2*N])
+          z_model = tf.reshape(z_model, [M_error])
           z_exact = exact_solu(test_data_MC)
           error_epoch[i] = np.sqrt(sum(np.square(z_model - z_exact)))/np.sqrt(sum(np.square(z_exact)))
           print("PDE loss in {}th epoch: {: 1.6e}. Last save epoch and best loss so far: {}, {: 1.6e}. Current error {: 1.6e}".format(i, epoch_loss[i], best_loss_epoch, best_loss, error_epoch[i]))
@@ -322,17 +326,19 @@ def PINNtrain(x, epochs, model):
     return epoch_loss, N_loss, gradient_loss, divergence_loss, error_epoch
 
 # train NN for Monte Carlo sample
-epochs = 10000
+epochs = int(sys.argv[4])
 PDE_loss1, N_loss1, gradient_loss1, divergence_loss1, error_epoch = PINNtrain(tf.convert_to_tensor(input_data_MC, dtype = float), epochs, model5)
 
 
 
 # relative L^2 error
-input_data_MC = np.random.uniform(0 ,1, (2*N,input_dim))
+input_data_MC = np.random.uniform(0 ,1, (M_error,input_dim))
 z_model = model5(input_data_MC)
-z_model = tf.reshape(z_model, [2*N])
+z_model = tf.reshape(z_model, [M_error])
 z_exact = np.sin(4*np.pi*input_data_MC[:, 0]) * np.sin(2*np.pi*input_data_MC[:, 1])
 error = np.sqrt(sum(np.square(z_model - z_exact)))/np.sqrt(sum(np.square(z_exact)))
 print(error)
 
-np.savetxt('example1.out', (PDE_loss1, N_loss1, error_epoch))
+file_name = sys.argv[6]
+N_runs = int(sys.argv[7])
+# np.savetxt('data/' + file_name + 'Run' + str(N_runs)+ '.out', (PDE_loss1, N_loss1, error_epoch))
