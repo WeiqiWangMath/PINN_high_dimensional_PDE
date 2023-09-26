@@ -47,9 +47,9 @@ y_data(:, :, 3) = Error_3000(1:100:epoch, :);
 legend(hMeanPlots, {'m=1000','m=2000','m=3000'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 3]);
+ylim([1e-4 3]);
 xlabel('number of epochs');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 1')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
@@ -105,7 +105,7 @@ set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
 ylim([1e-4 3]);
 xlabel('number of epochs');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 2')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
@@ -160,8 +160,8 @@ set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
 ylim([1e-4 3]);
 xlabel('number of epochs');
-ylabel('relative L2 error');
-title('Example 4')
+ylabel('relative L^2 error');
+title('Example 3')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
@@ -322,9 +322,9 @@ y_data(:, :, 3) = Error_dim20(1:100:epoch, :);
 legend(hMeanPlots, {'d=6','d=10','d=20'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 3]);
+ylim([1e-4 3]);
 xlabel('number of epochs');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 1 (3000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
@@ -376,9 +376,9 @@ y_data(:, :, 3) = Error_dim20(1:100:epoch, :);
 legend(hMeanPlots, {'d=6','d=10','d=20'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 3]);
+ylim([1e-4 3]);
 xlabel('number of epochs');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 1 (10000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
@@ -430,9 +430,9 @@ y_data(:, :, 3) = Error_dim20(1:100:epoch, :);
 legend(hMeanPlots, {'d=6','d=10','d=20'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 3]);
+ylim([1e-4 3]);
 xlabel('number of epochs');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 2 (3000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
@@ -486,8 +486,8 @@ set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
 ylim([1e-4 3]);
 xlabel('number of epochs');
-ylabel('relative L2 error');
-title('Example 4 (3000 sample points)')
+ylabel('relative L^2 error');
+title('Example 3 (3000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
@@ -538,10 +538,10 @@ y_data(:, :, 3) = Error_dim20(6:13, :);
 legend(hMeanPlots, {'d=6', 'd=10', 'd=20'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 10]);
+ylim([1e-4 3]);
 xlim([0 8192])
 xlabel('number of sample points');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 1 (after 30000 epochs)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
@@ -594,10 +594,10 @@ y_data(:, :, 3) = Error_dim20(6:12, :);
 legend(hMeanPlots, {'d=6', 'd=10', 'd=20'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 10]);
+ylim([1e-4 3]);
 xlim([0 4096])
 xlabel('number of sample points');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 2 (after 30000 epochs)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
@@ -652,15 +652,70 @@ set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
 ylim([1e-3 10]);
 xlim([0 65536])
 xlabel('# of sample points');
-ylabel('relative L2 error');
+ylabel('relative L^2 error');
 title('Example 3 (after 30000 epochs)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
 
+%% Example 4 Error vs. number of sample points (after 30000 epochs)
+figure(21)
+% load data
+epoch = 30000;
+N_runs = 10;
+Error_dim6 = zeros(13, N_runs);
+Error_dim10 = zeros(13, N_runs);
+Error_dim20 = zeros(13, N_runs);
+for j = 6 : 12
+    for i = 0 : N_runs-1
+        file_name = strcat('data\example4_dim6_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_dim6(j, i+1) = str2num(split_data{300});
+    end
+end
+
+for j = 6 : 12
+    for i = 0 : N_runs-1
+        file_name = strcat('data\example4_dim10_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_dim10(j, i+1) = str2num(split_data{300});
+    end
+end
+
+for j = 6 : 12
+    for i = 0 : N_runs-1
+        file_name = strcat('data\example4_dim20_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_dim20(j, i+1) = str2num(split_data{300});
+    end
+end
+
+
+% plot data
+x_data = 2.^(6:12);
+y_data = zeros(length(x_data), N_runs, 3);
+y_data(:, :, 1) = Error_dim6(6:12, :);
+y_data(:, :, 2) = Error_dim10(6:12, :);
+y_data(:, :, 3) = Error_dim20(6:12, :);
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+legend(hMeanPlots, {'d=6', 'd=10', 'd=20'},'Interpreter','latex')
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-4 3]);
+xlim([0 4096])
+xlabel('number of sample points');
+ylabel('relative L^2 error');
+title('Example 3 (after 30000 epochs)')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+
 %% Example 4 test architecture of the neural network
 % Error vs. number of hidden layer (and width height ratio)
-figure(18)
+figure(17)
 N_runs = 10;
 ratio = {'3', '5', '10', '20'};
 x_data = 1:2:7;
@@ -683,17 +738,20 @@ end
 legend(hMeanPlots, {'r=3', 'r=5', 'r=10', 'r=20'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-4 10]);
-xlim([0 7])
+ylim([1e-5 10]);
+xlim([1 7])
 xlabel('# of hidden layers');
-ylabel('relative L2 error');
-title('Example 4 (5000 sample pts after 30000 epochs)')
+ylabel('relative L^2 error');
+% title('Example 4 (5000 sample pts after 30000 epochs)')
+title('Hidden layer test')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
+xticks([1 3 5 7])
+yticks([1e-5 1e-4 1e-3 1e-2 1])
 
 %% Example 3 test architecture of the neural network
 % Error vs. number of hidden layer (and width height ratio)
-figure(13)
+figure(18)
 N_runs = 10;
 ratio = {'3', '5', '10', '20'};
 x_data = 1:2:7;
@@ -722,4 +780,71 @@ xlabel('# of hidden layers');
 ylabel('relative L2 error');
 title('Example 3 (20000 sample pts after 30000 epochs)')
 set(gca,'YScale','log')
+set(gca,'FontSize',20);
+
+
+%% Example 3 test periodic layers of the neural network
+% Error vs. number of hidden layer (and width height ratio)
+figure(19)
+m = 10:5:50;
+n = 10:10:50;
+N_runs = 1;
+data = zeros(9,5,N_runs);
+z_data = data(:,:,1);
+for i = 1: 9
+    for j = 1:5
+        for k = 0 : 4
+            file_name = strcat('data\example3_m', num2str(m(i)), 'n', num2str(n(j)), 'Run', num2str(k), '.out');
+            str_data = fileread(file_name);
+            split_data = split(str_data);
+            data(i, j, k+1) = str2num(split_data{300});
+        end
+        z_data(i, j) = 10^(mean(log10(data(i,j,:))));
+    end
+end
+
+[X, Y] = meshgrid(n,m);
+surf(X, Y, z_data);
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+set(gca, 'ZScale','log')
+xlim([10 50])
+ylim([10 50])
+zlim([1e-2 10])
+xlabel('m');
+ylabel('n');
+zlabel('relative L2 error');
+title('Example 3 (20000 sample pts after 30000 epochs)')
+set(gca,'FontSize',20);
+
+
+%% Example 4 test periodic layers of the neural network
+% Error vs. number of hidden layer (and width height ratio)
+figure(20)
+m = 10:5:50;
+x_data = m;
+n = 10:10:50;
+N_runs = 1;
+data = zeros(9,5,N_runs);
+y_data = zeros(9, 25, 1);
+for i = 1: 9
+    for j = 1:5
+        for k = 0 : 4
+            file_name = strcat('data\example4_m', num2str(m(i)), 'n', num2str(n(j)), 'Run', num2str(k), '.out');
+            str_data = fileread(file_name);
+            split_data = split(str_data);
+            y_data(i, j*5+k-4, 1) = str2num(split_data{300});
+        end
+    end
+end
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+xlim([10 50])
+ylim([1e-4 5e-3])
+xlabel('# of nodes m in the periodic layer');
+ylabel('relative L^2 error');
+% title('Example 4 (5000 sample pts after 30000 epochs)')
+title('Periodic layer test')
 set(gca,'FontSize',20);

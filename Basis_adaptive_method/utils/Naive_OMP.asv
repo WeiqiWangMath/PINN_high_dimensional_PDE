@@ -1,0 +1,92 @@
+%--- Description ---%
+%
+% Filename: Adaptive_lower_OMP.m
+%
+% Description: Run lower OMP to solve diffusion equation
+%
+% Inputs:
+% diffusion - diffusion coefficient
+% grad_diffusion - gradient of the diffusion coefficient
+% d - number of dimension
+% u_exact - exact solution
+% m - number of total collocation points
+% N - coefficient of the hyperbolic index set
+% s_val - number of iteration (sparsity)
+% nu - \nu in the differential equation
+% N_runs - number of runs
+
+% Output:
+% I - index set of the solution by adaptive lower OMP
+% z - Fourier coefficient of the solution on index set I
+
+
+function [rel_L2_error_CS, I] = Naive_OMP(diffusion, grad_diffusion, d, u_exact, m, s_vals, N, nu, N_runs)
+
+
+tic
+BC_type = 'PERIODIC'; % Type of boundary condition
+
+I = generate_index_set('HC',d,N);
+rel_L2_error_CS = zeros(length(s_vals), N_runs);
+
+
+
+    % Number of runs
+for i_run = 1:N_runs 
+    i_run
+    k = 1;
+    % random collocation points
+    random_grid = generate_sampling_grid('uniform',d,m);
+        
+    % random grid and the exact solution to measure the errors
+    N_error = 2*m;
+    h_int = 1/N_error;
+    y1_grid = generate_sampling_grid('uniform',d,N_error);
+    u_exact_grid_int = u_exact(y1_grid);
+    u_L2_norm  = h_int * norm(u_exact_grid_int(:),2);
+       
+    % Compute the right hand side
+    f_CS = compute_forcing_given_solution(diffusion, u_exact, random_grid, nu);
+    A_CS = generate_collocation_matrix(diffusion, grad_diffusion, I, random_grid, BC_type, nu); 
+    support = [];
+    norms = sqrt(sum(abs(A_CS).^2,1));
+    A_CS1 = A_CS * diag(1./norms);   % normalize columns
+    z = zeros(size(I,2),1);
+    for s = 1:max(s_vals)
+        r = f_CS - A_CS * z;
+
+        quantity = zeros(1, size(I,2));
+        T = 1:size(I,2);  
+        quantity(T) = abs(A_CS1(:,T)'* r); 
+        [~, sel_index] = max(quantity(T));
+        
+%         [x_CS1,res,~,stat] = womp_complex(A_CS1, f_CS,ones(size(A_CS,2),1),0,s,'l0w',[]);
+%         x_CS = x_CS1(:,s) ./ norms(:);
+
+        % Compare solution to the exact one
+        if ismember(s,s_vals)
+            u_CS = @(y_grid) evaluate_solution_given_coefficients(I, z, y_grid, BC_type);
+            u_CS_grid_int  = u_CS(y1_grid);
+            rel_L2_error_CS(k, i_run)       = h_int * norm(real(u_exact_grid_int(:) - u_CS_grid_int(:)),2) / u_L2_norm;
+            k = k+1;
+        end
+
+        % Add new index sets to I
+        for i = 1:size(I,2)
+            if ~ismember(i,support) && isequal(abs(r(i)),abs(r(sel_index)))
+                support = [support i];
+            end
+        end
+        
+        x_CS1 = zeros(size(I,2),1);
+        x_CS1(support) = A_CS1(:,support) \ f_CS;
+        z = x_CS1 ./ norms';
+      
+    end
+end
+
+
+
+
+
+

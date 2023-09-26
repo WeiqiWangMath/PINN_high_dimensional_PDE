@@ -2,7 +2,7 @@
 %
 % Filename: Adaptive_lower_OMP.m
 %
-% Description: computes the reduced margin set of a given lower index set
+% Description: Run lower OMP to solve diffusion equation
 %
 % Inputs:
 % diffusion - diffusion coefficient
@@ -12,13 +12,15 @@
 % m - number of total collocation points
 % N - number of iterations
 % N_runs - number of runs
+% nu - \nu in the differential equation
+% stop_card - stopping criterion for cardinality of the index set
 
 % Output:
 % I - index set of the solution by adaptive lower OMP
 % z - Fourier coefficient of the solution on index set I
 
 
-function [rel_L2_error_CS, card_index, I, z] = Adaptive_lower_OMP(diffusion, grad_diffusion, d, u_exact, m, N, nu)
+function [rel_L2_error_CS, card_index, I, z] = Adaptive_lower_OMP(diffusion, grad_diffusion, d, u_exact, m, N, nu, stop_card)
 
 
 tic
@@ -49,8 +51,12 @@ card_index = zeros(N, 1);
     % Number of iterations
     
     for k = 1:N
-
-        k
+        
+        if nargin > 7
+            if size(I, 2) > stop_card
+                break
+            end
+        end
         % Find reduced margin
         R_new = find_reduced_margin(I);
         

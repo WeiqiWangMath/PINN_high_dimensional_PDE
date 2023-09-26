@@ -12,13 +12,15 @@
 % m - number of total collocation points
 % N - number of iterations
 % N_runs - number of runs
+% nu - \nu in the differential equation
+% stop_card - stopping criterion for cardinality of the index set
 
 % Output:
 % I - index set of the solution by adaptive lower OMP
 % z - Fourier coefficient of the solution on index set I
 
 
-function [rel_L2_error_CS, card_index, I, z] = Adaptive_lower_OMP(diffusion, grad_diffusion, d, u_exact, m, N, nu, N_runs)
+function [rel_L2_error_CS, card_index, I, z] = Adaptive_lower_OMP(diffusion, grad_diffusion, d, u_exact, m, N, nu, stop_card)
 
 
 tic
@@ -43,16 +45,18 @@ r = f_CS; % initialize residual
 A_CS_I = generate_collocation_matrix(diffusion, grad_diffusion, I, random_grid, BC_type, nu); 
 
 
-rel_L2_error_CS = zeros(N, N_runs);
-card_index = zeros(N, N_runs);
+rel_L2_error_CS = zeros(N, 1);
+card_index = zeros(N, 1);
 
-parfor i_runs = 1: N_runs
     % Number of iterations
-    rel_L2_error_CS_temp = zeros(N,1)
-    card_index_temp = zeros(N,1)
+    
     for k = 1:N
-
         k
+        if nargin > 7
+            if size(I, 2) > stop_card
+                break
+            end
+        end
         % Find reduced margin
         R_new = find_reduced_margin(I);
         
@@ -80,12 +84,12 @@ parfor i_runs = 1: N_runs
             % Compare solution to the exact one
             u_CS = @(y_grid) evaluate_solution_given_coefficients(I, z, y_grid, BC_type);
             u_CS_grid_int  = u_CS(y1_grid);
-            rel_L2_error_CS_temp(k-1)       = h_int * norm(real(u_exact_grid_int(:) - u_CS_grid_int(:)),2) / u_L2_norm;
+            rel_L2_error_CS(k-1)       = h_int * norm(real(u_exact_grid_int(:) - u_CS_grid_int(:)),2) / u_L2_norm;
 %             figure(2)
 %             plot3(y1_grid(:,1),y1_grid(:,2), real(u_exact_grid_int(:) - u_CS_grid_int(:)),'.')
 
             % Save size of the current index set 
-            card_index_temp(k-1) = size(I, 2);
+            card_index(k-1) = size(I, 2);
 
 
             % Plot figure of the lower set and margin set
@@ -105,6 +109,7 @@ parfor i_runs = 1: N_runs
         end
 
         % CS using womp
+        quantity = zeros(1, size(I,2) + size(R,2));
         T = (size(I,2)+1):(size(I,2) + size(R,2)); % Only search on the reduced margin set 
         quantity(T) = abs(A_CS1(:,T)'* r); 
         [~, sel_index] = max(quantity(T));
@@ -128,12 +133,7 @@ parfor i_runs = 1: N_runs
         x_CS1 = A_CS1(:,support) \ f_CS;
         z = x_CS1 ./ norms(support)';
         
-        if k == N
-            rel_L2_error_CS(:, i_runs) = rel_L2_error_CS_temp;
-            card_index_temp(:, i_runs) = card_index_temp;
-        end
     end
-end
 
 
 % y_data = zeros(size(card_index,2),N_runs,2);
