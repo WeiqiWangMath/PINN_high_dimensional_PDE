@@ -118,7 +118,6 @@ card_index = zeros(N, 1);
         S = size(I,2);
       
 
-
         % Add new index sets to I
         support = 1: S;
         for i = 1:size(R,2)
@@ -132,6 +131,7 @@ card_index = zeros(N, 1);
         % Solve for z for the current index set
         x_CS1 = A_CS1(:,support) \ f_CS;
         z = x_CS1 ./ norms(support)';
+
         
     end
 

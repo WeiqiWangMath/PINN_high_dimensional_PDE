@@ -276,6 +276,24 @@ for i = 3:length(m)
     end
     save(append('..\data\example2_m',num2str(m(i))), 'L2_error')
 end
+%% Run test example 1, d = 30
+
+m = [8000]; %number of sample point
+N = 2000;
+N_runs = 25;
+rel_L2_error_CS = zeros(N, 1);
+card_index = zeros(N, 1);
+L2_error = zeros(length(m), N_runs);
+for i = 1:length(m)
+    for i_runs = 1: N_runs
+        i_runs
+        [rel_L2_error_CS, card_index, ~, ~] = Adaptive_lower_OMP(diffusion, grad_diffusion, d, u_exact_f1, m(i), N, nu, m(i)/6);
+        L2_error(i, i_runs) = rel_L2_error_CS(sum(card_index > 0));
+        sum(card_index > 0)
+    end
+    save(append('..\data\example1_m',num2str(m(i))), 'L2_error')
+end
+
 
 %% Plot adaptive OMP vs. NN (example 4)
 figure(21)
@@ -339,17 +357,53 @@ yticks([1e-10 1e-5 1e-3 1e-2 0.1 1]);
 legend(hMeanPlots, {'Lower OMP', 'NN'},'Interpreter','latex')
 
 
+%% Plot adaptive OMP vs. NN (example 1)
+figure(26)
+m = [2000, 4000, 6000, 8000]; %number of sample point
+N_runs = 25;
+x_data = m;
+y_data = ones(length(x_data), N_runs, 2);
+epoch = 30000;
+for i = 1:length(m)
+    if i <= 4
+        load(append('..\data\example1_m',num2str(m(i))))
+        y_data(i, :, 1) = L2_error(1, :);
+    end
+    for j = 1: N_runs
+        file_name = strcat('..\data\example1_dim30_N', num2str(m(i)), 'Run', num2str(j), '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        y_data(i, j, 2) = str2num(split_data{300});
+    end
+end
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-12 100]);
+xlim([m(1) m(length(m))])
+xlabel('# of sample points');
+ylabel('relative L^2 error');
+title('Example 1')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+yticks([1e-5 1e-3 1e-2 0.1 1]);
+legend(hMeanPlots, {'Lower OMP', 'NN'},'Interpreter','latex')
+
+
+
+
+
 %% Try naive OMP, example 2, d = 6
 d = 6
 m = [250, 500, 750, 1000, 1250, 1500];
 N_runs = 25;
-[L2_error_naive, I] = Naive_OMP(diffusion, grad_diffusion, d, u_exact_f2, 3000, m, 16, nu, N_runs);
+[L2_error_naive, I] = Naive_OMP(diffusion, grad_diffusion, d, u_exact_f2, 3000, m, 18, nu, N_runs);
 save('..\data\example2_naive_OMP', 'L2_error_naive')
 
 %% naive OMP small m, example 2, d = 6
 m = [8, 16, 32, 64, 128];
 N_runs = 25;
-[L2_error_naive, I] = Naive_OMP(diffusion, grad_diffusion, d, u_exact_f2, 3000, m, 16, nu, N_runs);
+[L2_error_naive, I] = Naive_OMP(diffusion, grad_diffusion, d, u_exact_f2, 3000, m, 18, nu, N_runs);
 save('..\data\example2_naive_OMP_m_small', 'L2_error_naive')
 %% Run test example 2, d = 6
 
@@ -445,8 +499,64 @@ ylim([1e-5 10]);
 xlim([m(1) m(length(m))])
 xlabel('sparsity of the solution');
 ylabel('relative L^2 error');
-title('Example 4')
+title('Example 3')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 yticks([1e-5 1e-4 1e-3 1e-2 0.1 1]);
+legend(hMeanPlots, {'traditional', 'adaptive'},'Interpreter','latex')
+
+%% Try naive OMP, example 1, d = 6
+d = 6
+m = [250, 500, 750, 1000, 1250, 1500];
+N_runs = 25;
+[L2_error_naive, I] = Naive_OMP(diffusion, grad_diffusion, d, u_exact_f1, 3000, m, 16, nu, N_runs);
+save('..\data\example1_naive_OMP', 'L2_error_naive')
+
+%% naive OMP small m, example 1, d = 6
+m = [8, 16, 32, 64, 128];
+N_runs = 25;
+[L2_error_naive, I] = Naive_OMP(diffusion, grad_diffusion, d, u_exact_f1, 3000, m, 16, nu, N_runs);
+save('..\data\example1_naive_OMP_m_small', 'L2_error_naive')
+%% Run test example 1, d = 6
+
+m = [16, 32, 64, 128, 256, 500, 1000, 1500, 2000, 2500, 3000]; %number of sample point
+N = 800;
+N_runs = 25;
+rel_L2_error_CS = zeros(N, 1);
+card_index = zeros(N, 1);
+L2_error = zeros(length(m), N_runs);
+for i = 1:length(m)
+    i
+    for i_runs = 1: N_runs
+        i_runs
+        [rel_L2_error_CS, card_index, ~, ~] = Adaptive_lower_OMP(diffusion, grad_diffusion, d, u_exact_f1, m(i), N, nu, m(i)/2);
+        L2_error(i, i_runs) = rel_L2_error_CS(sum(card_index > 0));
+%         sum(card_index > 0)
+    end
+    save(append('..\data\example1_dim6_adapt_m',num2str(m(i))), 'L2_error')
+end
+
+%% Plot adaptive OMP vs. traditional OMP (example 1)
+figure(24)
+m = [16, 32, 64, 128, 256, 500, 1000, 1500, 2000, 2500, 3000]; %number of sample point
+N_runs = 25;
+x_data = m;
+y_data = zeros(length(x_data), N_runs, 2);
+load('..\data\example1_naive_OMP_m_small.mat', 'L2_error_naive')
+y_data(1:5, :, 1) = L2_error_naive;
+load('..\data\example1_naive_OMP.mat', 'L2_error_naive')
+y_data(6:11, :, 1) = L2_error_naive(1:6, :);
+load('..\data\example1_dim6_adapt_m3000.mat','L2_error')
+y_data(1:11, :, 2)= L2_error;
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-15 100]);
+xlim([m(1) m(length(m))])
+xlabel('sparsity of the solution');
+ylabel('relative L^2 error');
+title('Example 1')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+yticks([1e-15 1e-10 1e-5 1e-3 0.1 10]);
 legend(hMeanPlots, {'traditional', 'adaptive'},'Interpreter','latex')
