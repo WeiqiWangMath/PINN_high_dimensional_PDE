@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=02:00:00
-#SBATCH --account=def-sbrugiap
+#SBATCH --account=def-rbdong
 #SBATCH --gres=gpu:1
 #SBATCH --mem=32000
 

@@ -2,7 +2,7 @@
 """
 Solve High dimensional periodic diffusion equation using PINN
 
-Example 4: 
+Example 4 with Trigonometric Basis: 
     exact solution: $\Psi_{exact}(x) = \exp \left( \frac{2}{d} \sum^d_{k=1} \frac{1}{k+1}\sin{2\pi x_k}\right)$
     
 List of arguments:
@@ -13,10 +13,6 @@ List of arguments:
     #5 : M_error - number of sampling when measure error
     #6 : file_name - name of the output file
     #7 : N_runs - the number of runs
-    #8 : m_periodic - number of nodes in the first periodic layer
-    #9 : n_periodic - number of nodes in the second periodic layer
-    #10 : nb_hidden_layers - number of hidder layers
-    #11 : hw_ratio : height width ratio of hidder layers
         
 Output:
     PDE_loss1: loss function of the PDE vs. epoch
@@ -82,6 +78,57 @@ class DiagonalWeight(tf.keras.constraints.Constraint):
         v = w*m
         return v
 
+# Custom Trigonometric Basis Layer
+class TrigonometricBasisLayer(tf.keras.layers.Layer):
+    """
+    Custom layer that implements trigonometric basis functions:
+    {sin(2πx_i), 1, cos(2πx_i), cos(4πx_i), ..., cos(2*m_periodic*π*x_i)}
+    for each dimension i.
+    Note: Only ONE sine term per dimension, multiple cosine terms.
+    """
+    def __init__(self, m_periodic, input_dim, **kwargs):
+        super(TrigonometricBasisLayer, self).__init__(**kwargs)
+        self.m_periodic = m_periodic
+        self.input_dim = input_dim
+        
+    def call(self, inputs):
+        """
+        inputs: tensor of shape (batch_size, input_dim)
+        output: tensor of shape (batch_size, (m_periodic+2)*input_dim)
+        """
+        batch_size = tf.shape(inputs)[0]
+        outputs = []
+        
+        for dim in range(self.input_dim):
+            x_i = inputs[:, dim:dim+1]  # Shape: (batch_size, 1)
+            
+            # sin(2πx_i) - only one sine term
+            sin_term = tf.sin(2 * np.pi * x_i)
+            
+            # constant term 1
+            const_term = tf.ones_like(x_i)
+            
+            # cos(2πx_i), cos(4πx_i), ..., cos(2*m_periodic*π*x_i)
+            cos_terms = []
+            for k in range(1, self.m_periodic + 1):
+                cos_term = tf.cos(2 * k * np.pi * x_i)
+                cos_terms.append(cos_term)
+            
+            # Concatenate: [sin(2πx_i), 1, cos(2πx_i), cos(4πx_i), ..., cos(2*m_periodic*π*x_i)]
+            dim_output = tf.concat([sin_term, const_term] + cos_terms, axis=1)
+            outputs.append(dim_output)
+        
+        # Concatenate all dimensions
+        result = tf.concat(outputs, axis=1)
+        return result
+    
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            'm_periodic': self.m_periodic,
+            'input_dim': self.input_dim
+        })
+        return config
 
 # Neural Network for periodic problem
 
@@ -97,30 +144,13 @@ def init_model(nb_hidden_layers, nb_nodes_per_layer, m_periodic, n_periodic, ome
     input_model = tf.keras.layers.InputLayer(input_shape= (input_dim,), name='input_model')
     model.add(input_model)
 
-    # Construct first omega matrix
-    omega_each_dim = omega*np.ones((input_dim,1))
-    Omega_matrix = np.array([])
+    # Create trigonometric basis layer (replaces first periodic layer)
+    trig_basis_layer = TrigonometricBasisLayer(m_periodic, input_dim, name='trigonometric_basis_layer')
+    all_layers.append(trig_basis_layer)
+    model.add(trig_basis_layer)
 
-    for dim in range(input_dim):
-        Omega_dim = np.zeros((m_periodic, input_dim))
-        Omega_dim[:,dim] = omega_each_dim[dim,0]*np.ones((m_periodic,))
-        Omega_matrix = np.vstack([Omega_matrix,Omega_dim]) if Omega_matrix.size else Omega_dim
-
-    Omega = tf.Variable(Omega_matrix.T,dtype=tf.float32)
-
-    # Create first C^inf periodic layers L_p(m,n)
-    first_periodic_layer = tf.keras.layers.Dense(m_periodic*input_dim,
-                                                 activation = tf.math.cos,
-                                                 use_bias = True,
-                                                 trainable = True,
-                                                 name = 'first_periodic_layer',
-                                                 kernel_initializer = ConstantTensorInitializer(Omega),
-                                                 kernel_constraint = ConstantTensorConstraint(Omega),
-                                                 bias_initializer = 'glorot_normal')
-    all_layers.append(first_periodic_layer)
-    model.add(first_periodic_layer)
-
-    second_periodic_layer = tf.keras.layers.Dense(m_periodic*input_dim,
+    # Second periodic layer (now takes input from trigonometric basis)
+    second_periodic_layer = tf.keras.layers.Dense((m_periodic+2)*input_dim,
                                                   activation = 'tanh',
                                                   use_bias = True,
                                                   trainable = True,
@@ -152,13 +182,12 @@ def init_model(nb_hidden_layers, nb_nodes_per_layer, m_periodic, n_periodic, ome
     
     return model
 
-nb_hidden_layers = int(sys.argv[10])
-hw_ratio = int(sys.argv[11])
-nb_nodes_per_layer = nb_hidden_layers * hw_ratio
+nb_hidden_layers = 3
+nb_nodes_per_layer = 30
 
 input_dim = int(sys.argv[1])
-m_periodic = int(sys.argv[8])
-n_periodic = int(sys.argv[9])
+m_periodic = 11
+n_periodic = 30
 
 L_period = 1.0 #2*np.pi
 omega = 2*np.pi/L_period
@@ -191,26 +220,12 @@ def diffusion_fcns(x):
 
 
 # Define the exact solution
-# p is number of terms of the exact solution
-p = 3
-c = np.random.uniform(0, 1, (p))
-m1 = np.random.randint(1, 5, (p)) 
-m2 = np.random.randint(1, 5, (p)) 
-d1 = np.random.choice(range(input_dim), p, replace=False)
-d2 = np.random.choice(range(input_dim), p, replace=False)
- 
-print(c)
-print(m1)
-print(m2)
-print(d1)
-print(d2)
-
-# Define the exact solution
 def exact_solu(x):
     L,x_dim = np.shape(x)
     y = np.zeros_like(x[:, 0])
-    for k in range(p):
-      y = y + c[k] * np.sin(2* np.pi * m1[k] * np.double(x[:, d1[k]])) * np.sin(2* np.pi * m2[k] * np.double(x[:, d2[k]]))
+    for k in range(x_dim):
+      y = y + 1/(k+1)/(k+1) * np.sin(2* np.pi * np.double(x[:, k]))
+    y = np.exp(y)
     return y
 
 # Compute the gradient and divergence of the exact solution numerically
@@ -352,14 +367,9 @@ def PINNtrain(x, epochs, model):
 epochs = int(sys.argv[4])
 PDE_loss1, N_loss1, gradient_loss1, divergence_loss1, error_epoch = PINNtrain(tf.convert_to_tensor(input_data_MC, dtype = float), epochs, model5)
 
-test_data_MC = np.random.uniform(0 ,1, (M_error ,input_dim))
-z_model = model5(tf.convert_to_tensor(test_data_MC, dtype = float))
-z_model = tf.reshape(z_model, [M_error])
-z_exact = exact_solu(tf.convert_to_tensor(test_data_MC, dtype = float))
-error_epoch[29900] = np.sqrt(sum(np.square(z_model - z_exact)))/np.sqrt(sum(np.square(z_exact)))
-error_epoch_compressed = error_epoch[range(0,epochs,100)]
-print("Relative error (best loss){: 1.6e}".format(error_epoch[29900]))
+
+
 
 file_name = sys.argv[6]
 N_runs = int(sys.argv[7])
-np.savetxt('data/' + file_name + 'Run' + str(N_runs)+ '.out', (error_epoch_compressed))
+np.savetxt('data/' + file_name + 'Run' + str(N_runs)+ '.out', (PDE_loss1, N_loss1, error_epoch))

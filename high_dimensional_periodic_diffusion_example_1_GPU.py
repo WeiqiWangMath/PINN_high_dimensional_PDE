@@ -59,8 +59,8 @@ class DiagonalWeight(tf.keras.constraints.Constraint):
     """Constrains the weights to be diagonal.
     """
     def __call__(self, w):
-        N = K.int_shape(w)[-1]
-        m = K.eye(N)
+        N = w.shape[-1]
+        m = tf.eye(N)
         v = w*m
         return v
 

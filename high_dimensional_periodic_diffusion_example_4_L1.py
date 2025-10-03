@@ -2,21 +2,18 @@
 """
 Solve High dimensional periodic diffusion equation using PINN
 
-Example 4: 
+Example 4 with L1 Regularization: 
     exact solution: $\Psi_{exact}(x) = \exp \left( \frac{2}{d} \sum^d_{k=1} \frac{1}{k+1}\sin{2\pi x_k}\right)$
     
 List of arguments:
     #1 : input_dim - number of dimensions of the problem
     #2 : N - number of sampling
-    #3 : \nu - parameter \nu
+    #3 : nu - parameter nu
     #4 : epochs - number of epochs
     #5 : M_error - number of sampling when measure error
     #6 : file_name - name of the output file
     #7 : N_runs - the number of runs
-    #8 : m_periodic - number of nodes in the first periodic layer
-    #9 : n_periodic - number of nodes in the second periodic layer
-    #10 : nb_hidden_layers - number of hidder layers
-    #11 : hw_ratio : height width ratio of hidder layers
+    #8 : lambda_l1 - L1 regularization parameter for last layer weights
         
 Output:
     PDE_loss1: loss function of the PDE vs. epoch
@@ -25,6 +22,7 @@ Output:
 """
 
 import sys
+import os
 import numpy as np
 import tensorflow as tf
 from keras import backend as K
@@ -57,7 +55,7 @@ class ConstantTensorInitializer(tf.keras.initializers.Initializer):
     return self.t
 
   def get_config(self):
-    return {'t': self.t}
+    return {'t': t}
 
 class ConstantTensorConstraint(tf.keras.constraints.Constraint):
   """Constrains tensors to `t`."""
@@ -69,7 +67,7 @@ class ConstantTensorConstraint(tf.keras.constraints.Constraint):
     return self.t
 
   def get_config(self):
-    return {'t': self.t}
+    return {'t': t}
 
 # all you need to create a mask matrix M, which is a NxN identity matrix
 # and you can write a contraint like below
@@ -152,13 +150,12 @@ def init_model(nb_hidden_layers, nb_nodes_per_layer, m_periodic, n_periodic, ome
     
     return model
 
-nb_hidden_layers = int(sys.argv[10])
-hw_ratio = int(sys.argv[11])
-nb_nodes_per_layer = nb_hidden_layers * hw_ratio
+nb_hidden_layers = 3
+nb_nodes_per_layer = 30
 
 input_dim = int(sys.argv[1])
-m_periodic = int(sys.argv[8])
-n_periodic = int(sys.argv[9])
+m_periodic = 11
+n_periodic = 30
 
 L_period = 1.0 #2*np.pi
 omega = 2*np.pi/L_period
@@ -175,6 +172,15 @@ N = int(sys.argv[2])
 nu = float(sys.argv[3])
 M_error = int(sys.argv[5])
 
+# Get L1 regularization parameter (default to 0.001 if not provided)
+try:
+    lambda_l1 = float(sys.argv[8])
+except IndexError:
+    lambda_l1 = 0.001
+    print(f"L1 regularization parameter not provided, using default value: {lambda_l1}")
+
+print(f"Using L1 regularization parameter: {lambda_l1}")
+
 # Monte Carlo points in the domain
 
 input_data_MC = np.random.uniform(0 ,1, (N,input_dim))
@@ -190,27 +196,13 @@ def diffusion_fcns(x):
     return diffusion, grad_diffusion
 
 
-# Define the exact solution
-# p is number of terms of the exact solution
-p = 3
-c = np.random.uniform(0, 1, (p))
-m1 = np.random.randint(1, 5, (p)) 
-m2 = np.random.randint(1, 5, (p)) 
-d1 = np.random.choice(range(input_dim), p, replace=False)
-d2 = np.random.choice(range(input_dim), p, replace=False)
- 
-print(c)
-print(m1)
-print(m2)
-print(d1)
-print(d2)
-
-# Define the exact solution
+# Define the exact solution for Example 4
 def exact_solu(x):
     L,x_dim = np.shape(x)
     y = np.zeros_like(x[:, 0])
-    for k in range(p):
-      y = y + c[k] * np.sin(2* np.pi * m1[k] * np.double(x[:, d1[k]])) * np.sin(2* np.pi * m2[k] * np.double(x[:, d2[k]]))
+    for k in range(x_dim):
+      y = y + 1/(k+1)/(k+1) * np.sin(2* np.pi * np.double(x[:, k]))
+    y = np.exp(y)
     return y
 
 # Compute the gradient and divergence of the exact solution numerically
@@ -232,9 +224,9 @@ def exact_grad_div(x):
     return gradient, divergence
 
 
-# Training function
+# Training function with L1 regularization
 
-def trainStep_N_dimension(x, diffusion_x, grad_diffusion_x, exact_x, exact_grad_x, exact_div_x, opt, model):
+def trainStep_N_dimension(x, diffusion_x, grad_diffusion_x, exact_x, exact_grad_x, exact_div_x, opt, model, lambda_l1):
     
     L,x_dim = np.shape(x)
     
@@ -277,7 +269,16 @@ def trainStep_N_dimension(x, diffusion_x, grad_diffusion_x, exact_x, exact_grad_
             grad_error[i] = grad_N[:, i] - exact_grad_x[i]
             eqn = eqn - grad_diffusion_x[i] * grad_error[i]
         
-        loss = tf.reduce_sum(tf.square(eqn)) 
+        # Main PDE loss
+        pde_loss = tf.reduce_sum(tf.square(eqn)) 
+        
+        # L1 regularization on the last layer weights
+        last_layer_weights = model.layers[-1].kernel
+        l1_reg_loss = lambda_l1 * tf.reduce_sum(tf.abs(last_layer_weights))
+        
+        # Total loss = PDE loss + L1 regularization
+        loss = pde_loss + l1_reg_loss
+        
         N_loss = tf.reduce_sum(tf.square(N_error))
         gradient_loss = tf.square(grad_error[x_dim-1])
         for i in range(x_dim-1):
@@ -292,10 +293,10 @@ def trainStep_N_dimension(x, diffusion_x, grad_diffusion_x, exact_x, exact_grad_
     opt.apply_gradients(zip(grads, model.trainable_variables))
     
     
-    return loss, N_loss, gradient_loss, divergence_loss
+    return loss, N_loss, gradient_loss, divergence_loss, l1_reg_loss
 
 
-def PINNtrain(x, epochs, model):
+def PINNtrain(x, epochs, model, lambda_l1):
     
     # optional, use a stopping tolerance (i.e., if loss < 1e-7 then stop training early)
     stop_tol = 1e-12
@@ -308,7 +309,7 @@ def PINNtrain(x, epochs, model):
     # Define an optimizer
     lr = tf.keras.optimizers.schedules.PolynomialDecay(0.1, epochs, 1e-4)
     opt = tf.keras.optimizers.Adam()
-    epoch_loss, N_loss, gradient_loss, divergence_loss, error_epoch = (np.zeros(epochs) for i in range(5))
+    epoch_loss, N_loss, gradient_loss, divergence_loss, error_epoch, l1_reg_loss_epoch = (np.zeros(epochs) for i in range(6))
     
     # Calculate diffusion function, forcing term at sample points x in double precision
     diffusion_x, grad_diffusion_x = diffusion_fcns(np.double(x.numpy()))
@@ -321,14 +322,14 @@ def PINNtrain(x, epochs, model):
     # Main training loop
     for i in range(epochs):
         
-        epoch_loss[i], N_loss[i], gradient_loss[i], divergence_loss[i]  = trainStep_N_dimension(x, diffusion_x, grad_diffusion_x, exact_x, exact_grad_x, exact_div_x, opt, model)
+        epoch_loss[i], N_loss[i], gradient_loss[i], divergence_loss[i], l1_reg_loss_epoch[i] = trainStep_N_dimension(x, diffusion_x, grad_diffusion_x, exact_x, exact_grad_x, exact_div_x, opt, model, lambda_l1)
         
         if (np.mod(i, 100)==0):
           z_model = model(test_data_MC)
           z_model = tf.reshape(z_model, [M_error])
           z_exact = exact_solu(test_data_MC)
           error_epoch[i] = np.sqrt(sum(np.square(z_model - z_exact)))/np.sqrt(sum(np.square(z_exact)))
-          print("PDE loss in {}th epoch: {: 1.6e}. Last save epoch and best loss so far: {}, {: 1.6e}. Current error {: 1.6e}".format(i, epoch_loss[i], best_loss_epoch, best_loss, error_epoch[i]))
+          print("PDE loss in {}th epoch: {: 1.6e}. L1 reg loss: {: 1.6e}. Last save epoch and best loss so far: {}, {: 1.6e}. Current error {: 1.6e}".format(i, epoch_loss[i], l1_reg_loss_epoch[i], best_loss_epoch, best_loss, error_epoch[i]))
     
         if (epoch_loss[i] < best_loss):
             best_weights = model.get_weights()
@@ -338,28 +339,32 @@ def PINNtrain(x, epochs, model):
             
         if (epoch_loss[i] < stop_tol):
             print("Current model has loss {: 1.6e}, lower than stopping tolerance {: 1.6e}, stopping early at epoch {}.".format(epoch_loss[i],stop_tol,i))
-            return epoch_loss, N_loss, gradient_loss, divergence_loss
+            return epoch_loss, N_loss, gradient_loss, divergence_loss, error_epoch, l1_reg_loss_epoch
     
     if (best_loss < epoch_loss[i]):
         model.set_weights(best_weights)
-        print("Current loss {: 1.6e}, Best loss {: 1.6e}. Restoring best model weights.".format(epoch_loss[i],best_loss))
+        print("Current loss {: 1.6e}, Best loss {: 1.6e}. Restoring best model weights.".format(i,epoch_loss[i],best_loss))
     else:
         print("Current loss {: 1.6e}, Best loss {: 1.6e}. Keeping current model weights.".format(epoch_loss[i],best_loss))
         
-    return epoch_loss, N_loss, gradient_loss, divergence_loss, error_epoch
+    return epoch_loss, N_loss, gradient_loss, divergence_loss, error_epoch, l1_reg_loss_epoch
 
 # train NN for Monte Carlo sample
 epochs = int(sys.argv[4])
-PDE_loss1, N_loss1, gradient_loss1, divergence_loss1, error_epoch = PINNtrain(tf.convert_to_tensor(input_data_MC, dtype = float), epochs, model5)
+PDE_loss1, N_loss1, gradient_loss1, divergence_loss1, error_epoch, l1_reg_loss1 = PINNtrain(tf.convert_to_tensor(input_data_MC, dtype = float), epochs, model5, lambda_l1)
 
-test_data_MC = np.random.uniform(0 ,1, (M_error ,input_dim))
-z_model = model5(tf.convert_to_tensor(test_data_MC, dtype = float))
+
+
+# relative L^2 error
+input_data_MC = np.random.uniform(0 ,1, (M_error,input_dim))
+z_model = model5(input_data_MC)
 z_model = tf.reshape(z_model, [M_error])
-z_exact = exact_solu(tf.convert_to_tensor(test_data_MC, dtype = float))
-error_epoch[29900] = np.sqrt(sum(np.square(z_model - z_exact)))/np.sqrt(sum(np.square(z_exact)))
-error_epoch_compressed = error_epoch[range(0,epochs,100)]
-print("Relative error (best loss){: 1.6e}".format(error_epoch[29900]))
+z_exact = exact_solu(input_data_MC)
+error = np.sqrt(sum(np.square(z_model - z_exact)))/np.sqrt(sum(np.square(z_exact)))
+print(error)
 
 file_name = sys.argv[6]
 N_runs = int(sys.argv[7])
-np.savetxt('data/' + file_name + 'Run' + str(N_runs)+ '.out', (error_epoch_compressed))
+os.makedirs('data', exist_ok=True)
+np.savetxt('data/' + file_name + 'Run' + str(N_runs)+ '.out', (PDE_loss1, N_loss1, error_epoch))
+print(f"Saved results to data/{file_name}Run{N_runs}.out")
