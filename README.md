@@ -7,7 +7,7 @@ This repository contains two experiment tracks:
 - MATLAB basis-adaptive compressive Fourier/collocation experiments and figure generation.
 
 ## Figure-by-figure reproduction (paper order)
-Use `Basis_adaptive_method/Figures/Visualize_data.m` as the illustrative workflow for plotting regenerated data (it shows how figure assets are produced from data for all figures). Python outputs can be visualized similarly from regenerated `.out` files into `figs/`.
+Use `data_visualize.m` as the illustrative workflow for plotting regenerated data (it shows how figure assets are produced from data for all figures). Python outputs can be visualized similarly from regenerated `.out` files into `figs/`.
 
 Figure 1 in the paper is a TikZ figure (not generated here). 
 Figure 2 illustrates the reduced margin \(R(S)\) of a multi-index set (conceptual schematic). To recreate the idea: build an index set `S = generate_index_set(...)`, compute `RS = find_reduced_margin(S)` (see `Basis_adaptive_method/utils/find_reduced_margin.m`), and plot `S` vs `RS` in MATLAB.
@@ -15,6 +15,8 @@ Figure 3: impact of number of samples \(m\) on PINNs for the exact solutions 1â€
 - Example 1: `example1.py`
 - Example 2: `example2.py`
 - Example 3: `example3.py`; set `input_dim=6`, `nu=0.5`, `epochs=30000`, `M_error=10000`, vary `N`. Slurm wrappers: `training_n_runs.sh` / `single_run_example_1.sh` give example of multiple runs. Outputs are written as `data/<file_name>Run<N_runs>.out`.
+Figure 4: impact of dimension \(d\) on PINNs for the exact solutions; same settings as Figure 3 except sweeping `input_dim` (see `figs/PINN_dimension_solu*.eps`). Run `example1.py`, `example2.py`, `example3.py` with fixed `N` per figure, `nu=0.5`, `epochs=30000`, `M_error=10000`, and sweep `input_dim`. Outputs: `data/<file_name>Run<N_runs>.out`.
+Figure 5: final-error vs. number of sample points (after 30000 epochs), for the exact solutions 1â€“3. Use `example1.py`, `example2.py`, `example3.py` with the sample counts shown in the figure; take the final reported error from each run (last epoch) to plot. Outputs: `data/<file_name>Run<N_runs>.out`. Visualization for PINN curves is scripted in `data_visualize.m` (root).
 
 ## Repository layout (kept as-is, described for clarity)
 - Python PINN scripts (root):

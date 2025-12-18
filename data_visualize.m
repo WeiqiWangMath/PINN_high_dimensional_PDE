@@ -1,6 +1,6 @@
 addpath('./graphic')
 
-%% Example 1
+%% Example 1 (Paper Fig 3: sample-size sweep, Example 1)
 figure(1)
 % load data
 epoch = 30000;
@@ -55,7 +55,7 @@ set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
 
-%% Example 2
+%% Example 2 (Paper Fig 3: sample-size sweep, Example 2)
 
 figure(2)
 % load data
@@ -110,7 +110,7 @@ title('Example 2')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 4
+%% Example 3 (paper u3) sample-size sweep (Paper Fig 3, Example 3)
 
 figure(3)
 % load data
@@ -165,117 +165,7 @@ title('Example 3')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 3 (3 terms)
-
-figure(4)
-% load data
-epoch = 30000;
-N_runs = 25;
-N_curves = 2;
-Error_5000 = zeros(epoch, N_runs);
-for i = 0 : N_runs-1
-    file_name = strcat('data\example3_N5000terms3_Run', num2str(i) , '.out');
-    str_data = fileread(file_name);
-    split_data = split(str_data);
-    for j = 1 : epoch
-        Error_5000(j, i+1) = str2num(split_data{2*epoch+j});
-    end
-end
-
-Error_10000 = zeros(epoch, N_runs);
-for i = 0 : N_runs-1
-    file_name = strcat('data\example3_N10000terms3_Run', num2str(i) , '.out');
-    str_data = fileread(file_name);
-    split_data = split(str_data);
-    for j = 1 : epoch
-        Error_10000(j, i+1) = str2num(split_data{2*epoch+j});
-    end
-end
-
-Error_20000 = zeros(epoch, N_runs);
-for i = 0 : N_runs-1
-    file_name = strcat('data\example3_N20000terms3_Run', num2str(i) , '.out');
-    str_data = fileread(file_name);
-    split_data = split(str_data);
-    for j = 1 : epoch
-        Error_20000(j, i+1) = str2num(split_data{2*epoch+j});
-    end
-end
-
-% plot data
-x_data = 0:100:epoch-1;
-y_data = zeros(length(x_data), N_runs, N_curves);
-y_data(:, :, 1) = Error_5000(1:100:epoch, :);
-y_data(:, :, 2) = Error_10000(1:100:epoch, :);
-y_data(:, :, 3) = Error_20000(1:100:epoch, :);
-
-[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
-legend(hMeanPlots, {'m=5000','m=10000','m=20000'},'Interpreter','latex')
-set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
-set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 10]);
-xlabel('number of epochs');
-ylabel('relative L2 error');
-title('Example 3 (3 terms)')
-set(gca,'YScale','log')
-set(gca,'FontSize',20);
-
-%% Example 3 (6 terms)
-
-figure(5)
-% load data
-epoch = 30000;
-N_runs = 25;
-N_curves = 2;
-Error_20000 = zeros(epoch, N_runs);
-for i = 0 : N_runs-1
-    file_name = strcat('data\example3_N20000terms6_Run', num2str(i) , '.out');
-    str_data = fileread(file_name);
-    split_data = split(str_data);
-    for j = 1 : epoch
-        Error_20000(j, i+1) = str2num(split_data{2*epoch+j});
-    end
-end
-
-Error_40000 = zeros(epoch, N_runs);
-for i = 0 : N_runs-1
-    file_name = strcat('data\example3_N40000terms6_Run', num2str(i) , '.out');
-    str_data = fileread(file_name);
-    split_data = split(str_data);
-    for j = 1 : epoch
-        Error_40000(j, i+1) = str2num(split_data{2*epoch+j});
-    end
-end
-
-Error_60000 = zeros(epoch, N_runs);
-for i = 0 : N_runs-1
-    file_name = strcat('data\example3_N60000terms6_Run', num2str(i) , '.out');
-    str_data = fileread(file_name);
-    split_data = split(str_data);
-    for j = 1 : epoch
-        Error_60000(j, i+1) = str2num(split_data{2*epoch+j});
-    end
-end
-
-% plot data
-x_data = 0:100:epoch-1;
-y_data = zeros(length(x_data), N_runs, N_curves);
-y_data(:, :, 1) = Error_20000(1:100:epoch, :);
-y_data(:, :, 2) = Error_40000(1:100:epoch, :);
-y_data(:, :, 3) = Error_60000(1:100:epoch, :);
-
-[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
-legend(hMeanPlots, {'m=20000','m=40000','m=60000'},'Interpreter','latex')
-set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
-set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 10]);
-xlabel('number of epochs');
-ylabel('relative L2 error');
-title('Example 3 (6 terms)')
-set(gca,'YScale','log')
-set(gca,'FontSize',20);
-
-%% Example 1 impact of the dimensionality
+%% Example 1 impact of dimensionality (Paper Fig 4, N=3000)
 figure(6)
 % load data
 epoch = 30000;
@@ -329,7 +219,7 @@ title('Example 1 (3000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 1 impact of the dimensionality (10000 sample points)
+%% Example 1 impact of dimensionality (Paper Fig 4, N=10000)
 figure(7)
 % load data
 epoch = 30000;
@@ -383,7 +273,7 @@ title('Example 1 (10000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 2 impact of the dimensionality (3000 sample points)
+%% Example 2 impact of dimensionality (Paper Fig 4, N=3000)
 figure(8)
 % load data
 epoch = 30000;
@@ -437,7 +327,7 @@ title('Example 2 (3000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 4 impact of the dimensionality (3000 sample points)
+%% Example 3 (paper u3) impact of dimensionality (Paper Fig 4, N=3000)
 figure(9)
 % load data
 epoch = 30000;
@@ -445,7 +335,7 @@ N_runs = 21;
 N_curves = 2;
 Error_dim6 = zeros(epoch, N_runs);
 for i = 0 : N_runs-1
-    file_name = strcat('data\example4_N3000Run', num2str(i) , '.out');
+    file_name = strcat('data\example3_N3000Run', num2str(i) , '.out');
     str_data = fileread(file_name);
     split_data = split(str_data);
     for j = 1 : epoch
@@ -455,7 +345,7 @@ end
 
 Error_dim10 = zeros(epoch, N_runs);
 for i = 0 : N_runs-1
-    file_name = strcat('data\example4_dim10_N3000Run', num2str(i) , '.out');
+    file_name = strcat('data\example3_dim10_N3000Run', num2str(i) , '.out');
     str_data = fileread(file_name);
     split_data = split(str_data);
     for j = 1 : epoch
@@ -465,7 +355,7 @@ end
 
 Error_dim20 = zeros(epoch, N_runs);
 for i = 0 : N_runs-1
-    file_name = strcat('data\example4_dim20_N3000Run', num2str(i) , '.out');
+    file_name = strcat('data\example3_dim20_N3000Run', num2str(i) , '.out');
     str_data = fileread(file_name);
     split_data = split(str_data);
     for j = 1 : epoch
@@ -491,7 +381,7 @@ title('Example 3 (3000 sample points)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 1 Error vs. number of sample points (after 30000 epochs)
+%% Example 1 final error vs sample count (Paper Fig 5)
 figure(10)
 % load data
 epoch = 30000;
@@ -547,7 +437,7 @@ set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
 
-%% Example 2 Error vs. number of sample points (after 30000 epochs)
+%% Example 2 final error vs sample count (Paper Fig 5)
 figure(11)
 % load data
 epoch = 30000;
@@ -602,63 +492,8 @@ title('Example 2 (after 30000 epochs)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 3 (3 terms) Error vs. number of sample points (after 30000 epochs)
-figure(12)
-% load data
-epoch = 30000;
-N_runs = 10;
-Error_dim6 = zeros(16, N_runs);
-Error_dim10 = zeros(16, N_runs);
-Error_dim20 = zeros(16, N_runs);
-for j = 12 : 16
-    for i = 0 : N_runs-1
-        file_name = strcat('data\example3_dim6_N', num2str(2^j), 'terms3_Run', num2str(i) , '.out');
-        str_data = fileread(file_name);
-        split_data = split(str_data);
-        Error_dim6(j, i+1) = str2num(split_data{2*epoch+29901});
-    end
-end
 
-for j = 12 : 16
-    for i = 0 : N_runs-1
-        file_name = strcat('data\example3_dim10_N', num2str(2^j), 'terms3_Run', num2str(i) , '.out');
-        str_data = fileread(file_name);
-        split_data = split(str_data);
-        Error_dim10(j, i+1) = str2num(split_data{2*epoch+29901});
-    end
-end
-
-for j = 12 : 14
-    for i = 0 : N_runs-1
-        file_name = strcat('data\example3_dim20_N', num2str(2^j), 'terms3_Run', num2str(i) , '.out');
-        str_data = fileread(file_name);
-        split_data = split(str_data);
-        Error_dim20(j, i+1) = str2num(split_data{2*epoch+29901});
-    end
-end
-
-
-% plot data
-x_data = 2.^(12:16);
-y_data = zeros(length(x_data), N_runs, 3);
-y_data(:, :, 1) = Error_dim6(12:16, :);
-y_data(:, :, 2) = Error_dim10(12:16, :);
-y_data(:, :, 3) = Error_dim20(12:16, :);
-
-[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
-legend(hMeanPlots, {'d=6', 'd=10', 'd=20'},'Interpreter','latex')
-set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
-set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 10]);
-xlim([0 65536])
-xlabel('# of sample points');
-ylabel('relative L^2 error');
-title('Example 3 (after 30000 epochs)')
-set(gca,'YScale','log')
-set(gca,'FontSize',20);
-
-
-%% Example 4 Error vs. number of sample points (after 30000 epochs)
+%% Example 3 (paper u3) Error vs. number of sample points (after 30000 epochs) — Paper Fig 5, Example 3
 figure(21)
 % load data
 epoch = 30000;
@@ -668,7 +503,7 @@ Error_dim10 = zeros(13, N_runs);
 Error_dim20 = zeros(13, N_runs);
 for j = 6 : 12
     for i = 0 : N_runs-1
-        file_name = strcat('data\example4_dim6_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        file_name = strcat('data\example3_dim6_N', num2str(2^j), 'Run', num2str(i) , '.out');
         str_data = fileread(file_name);
         split_data = split(str_data);
         Error_dim6(j, i+1) = str2num(split_data{300});
@@ -677,7 +512,7 @@ end
 
 for j = 6 : 12
     for i = 0 : N_runs-1
-        file_name = strcat('data\example4_dim10_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        file_name = strcat('data\example3_dim10_N', num2str(2^j), 'Run', num2str(i) , '.out');
         str_data = fileread(file_name);
         split_data = split(str_data);
         Error_dim10(j, i+1) = str2num(split_data{300});
@@ -686,7 +521,7 @@ end
 
 for j = 6 : 12
     for i = 0 : N_runs-1
-        file_name = strcat('data\example4_dim20_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        file_name = strcat('data\example3_dim20_N', num2str(2^j), 'Run', num2str(i) , '.out');
         str_data = fileread(file_name);
         split_data = split(str_data);
         Error_dim20(j, i+1) = str2num(split_data{300});
