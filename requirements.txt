@@ -1,0 +1,3 @@
+python==3.11
+tensorflow==2.19.1          # includes keras; choose a build matching your CUDA/CPU
+numpy>=1.26,<3               # tensorflow pins a compatible version; explicit for clarity
