@@ -11,20 +11,20 @@ Use `Basis_adaptive_method/Figures/Visualize_data.m` as the illustrative workflo
 
 Figure 1 in the paper is a TikZ figure (not generated here). 
 Figure 2 illustrates the reduced margin \(R(S)\) of a multi-index set (conceptual schematic). To recreate the idea: build an index set `S = generate_index_set(...)`, compute `RS = find_reduced_margin(S)` (see `Basis_adaptive_method/utils/find_reduced_margin.m`), and plot `S` vs `RS` in MATLAB.
-Figure 3 (PINN_number_samples_solu1/2/3): impact of number of samples \(m\) on PINNs for the exact solutions \eqref{eq:exact1}–\eqref{eq:exact3}; parameters \(d=6\), \(\rho=\nu=0.5\), 30000 epochs. Regenerate with:
-- Example 1 (\(u_1 = \sin(4\pi x_1)\sin(2\pi x_2)\)): `high_dimensional_periodic_diffusion_example_1.py`
-- Example 2 (\(u_2 = \exp(\sin(2\pi x_1)+\sin(2\pi x_2))\)): `high_dimensional_periodic_diffusion_example_2.py`
-- Example 3 (\(u_3 = \exp(\sum_{k=1}^d \frac{1}{k^2}\sin(2\pi x_k))\)): use `high_dimensional_periodic_diffusion_example_4.py` (and its architecture/trig variants); set `input_dim=6`, `nu=0.5`, `epochs=30000`, `M_error=10000`, vary `N`, and use `file_name` prefixes matching the figure. Slurm wrappers: `training_n_runs.sh` / `single_run_example_1_2_4.sh`.
+Figure 3: impact of number of samples \(m\) on PINNs for the exact solutions 1–3; parameters \(d=6\), \(\rho=\nu=0.5\), 30000 epochs. Regenerate with:
+- Example 1: `example1.py`
+- Example 2: `example2.py`
+- Example 3: `example3.py`; set `input_dim=6`, `nu=0.5`, `epochs=30000`, `M_error=10000`, vary `N`. Slurm wrappers: `training_n_runs.sh` / `single_run_example_1.sh` give example of multiple runs. Outputs are written as `data/<file_name>Run<N_runs>.out`.
 
 ## Repository layout (kept as-is, described for clarity)
 - Python PINN scripts (root):
-  - `high_dimensional_periodic_diffusion_example_1.py`: baseline periodic PINN, Example 1.
-  - `high_dimensional_periodic_diffusion_example_1_GPU.py`: multi-GPU MirroredStrategy variant.
-  - `high_dimensional_periodic_diffusion_example_1_L1.py`: Example 1 with L1 regularization on the last layer (adds `lambda_l1` arg).
-  - `high_dimensional_periodic_diffusion_example_2.py`: Example 2, exponential exact solution.
-  - `high_dimensional_periodic_diffusion_example_4.py`: Example 3 in the paper (\(u_3\)), exponential exact solution with mixed smoothness.
-  - `high_dimensional_periodic_diffusion_example_4_architecture.py`: architecture sweep version (tunable periodic layers / hidden widths) for \(u_3\).
-  - `high_dimensional_periodic_diffusion_example_4_trig_basis.py`: \(u_3\) using a trigonometric basis.
+  - `example1.py`: baseline periodic PINN, Example 1.
+  - `example1_gpu.py`: multi-GPU MirroredStrategy variant.
+  - `example1_l1.py`: Example 1 with L1 regularization on the last layer (adds `lambda_l1` arg).
+  - `example2.py`: Example 2, exponential exact solution.
+  - `example3.py`: Example 3 in the paper (\(u_3\)), exponential exact solution with mixed smoothness.
+  - `example3_architecture.py`: architecture sweep version (tunable periodic layers / hidden widths) for \(u_3\).
+  - `example3_trig_basis.py`: \(u_3\) using a trigonometric basis.
 - Slurm helpers (root):
   - `single_run*.sh`: one-off Slurm jobs wrapping the Python scripts.
   - `training_n_runs*.sh`: arrays of Slurm jobs to sweep seeds/params (e.g., `training_n_runs.sh`, `training_n_runs_example_L1.sh`, etc.).
@@ -40,7 +40,7 @@ Figure 3 (PINN_number_samples_solu1/2/3): impact of number of samples \(m\) on P
 ## Python experiments (CLI)
 All PINN scripts share the base signature:
 ```
-python high_dimensional_periodic_diffusion_example_<k>.py \
+python example<k>.py \
   input_dim N nu epochs M_error file_name N_runs [extra_args]
 ```
 - `input_dim`: problem dimension.
