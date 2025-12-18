@@ -7,7 +7,7 @@
   #5 : M_error - number of sampling when measure error
   #6 : file_name - name of the output file
   #7 : N_runs - the number of runs
-for j in {1..2}
+for j in {1..10}
 do
-  sbatch single_run_example_1_2_4.sh 6 2000 0.5 30000 10000 example4_N2000 $j
+  sbatch single_run_architecture.sh 6 10000 0.5 50000 10000 example4_dim6_m50000_N4096_Run${j} $j 11 30 3 10
 done

@@ -7,17 +7,21 @@ Example 4 with Trigonometric Basis:
     
 List of arguments:
     #1 : input_dim - number of dimensions of the problem
-    #2 : N - number of sampling
-    #3 : \nu - parameter \nu
-    #4 : epochs - number of epochs
-    #5 : M_error - number of sampling when measure error
+    #2 : N - number of sampling points for training
+    #3 : nu - parameter nu (diffusion coefficient)
+    #4 : epochs - number of training epochs
+    #5 : M_error - number of sampling points for error measurement
     #6 : file_name - name of the output file
     #7 : N_runs - the number of runs
-        
+    #8 : m_periodic - number of nodes in the first periodic layer
+    #9 : n_periodic - number of nodes in the second periodic layer
+    #10 : nb_hidden_layers - number of hidden layers
+    #11 : hw_ratio - height width ratio of hidden layers
+    
 Output:
     PDE_loss1: loss function of the PDE vs. epoch
     N_loss1: loss function of the neural network vs. epoch
-    error_epoch: error vs. epoch, the error is measured every 100 epoches
+    error_epoch: error vs. epoch, the error is measured every 100 epochs
 """
 
 import sys
@@ -78,48 +82,45 @@ class DiagonalWeight(tf.keras.constraints.Constraint):
         v = w*m
         return v
 
-# Custom Trigonometric Basis Layer
+# Optimized Trigonometric Basis Layer
 class TrigonometricBasisLayer(tf.keras.layers.Layer):
     """
-    Custom layer that implements trigonometric basis functions:
-    {sin(2πx_i), 1, cos(2πx_i), cos(4πx_i), ..., cos(2*m_periodic*π*x_i)}
-    for each dimension i.
-    Note: Only ONE sine term per dimension, multiple cosine terms.
+    Optimized trigonometric basis layer that implements, for each dimension i:
+    {sin(2π r x_i), cos(2π r x_i)} for r ∈ {−m_periodic, …, −1, 1, …, m_periodic}
+    using vectorized operations.
     """
     def __init__(self, m_periodic, input_dim, **kwargs):
         super(TrigonometricBasisLayer, self).__init__(**kwargs)
         self.m_periodic = m_periodic
         self.input_dim = input_dim
         
+        # Pre-compute frequency multipliers for efficiency
+        pos = np.arange(1, m_periodic+1)
+        neg = -np.arange(1, m_periodic+1)
+        freqs = np.concatenate([neg, pos])  # [-m, ..., -1, 1, ..., m]
+        self.freq_multipliers = tf.constant(2.0 * np.pi * freqs, dtype=tf.float32)
+        
     def call(self, inputs):
         """
         inputs: tensor of shape (batch_size, input_dim)
-        output: tensor of shape (batch_size, (m_periodic+2)*input_dim)
+        output: tensor of shape (batch_size, 4*m_periodic*input_dim)
         """
-        batch_size = tf.shape(inputs)[0]
-        outputs = []
+        # Vectorized computation for all dimensions at once
+        # Shape: (batch_size, input_dim)
         
-        for dim in range(self.input_dim):
-            x_i = inputs[:, dim:dim+1]  # Shape: (batch_size, 1)
-            
-            # sin(2πx_i) - only one sine term
-            sin_term = tf.sin(2 * np.pi * x_i)
-            
-            # constant term 1
-            const_term = tf.ones_like(x_i)
-            
-            # cos(2πx_i), cos(4πx_i), ..., cos(2*m_periodic*π*x_i)
-            cos_terms = []
-            for k in range(1, self.m_periodic + 1):
-                cos_term = tf.cos(2 * k * np.pi * x_i)
-                cos_terms.append(cos_term)
-            
-            # Concatenate: [sin(2πx_i), 1, cos(2πx_i), cos(4πx_i), ..., cos(2*m_periodic*π*x_i)]
-            dim_output = tf.concat([sin_term, const_term] + cos_terms, axis=1)
-            outputs.append(dim_output)
+        # Compute all sine and cosine harmonics using broadcasting
+        # Shape for each: (batch_size, input_dim, 2*m_periodic)
+        expanded_inputs = tf.expand_dims(inputs, axis=-1)
+        sin_terms = tf.sin(expanded_inputs * self.freq_multipliers)
+        cos_terms = tf.cos(expanded_inputs * self.freq_multipliers)
+
+        # Flatten to (batch_size, input_dim * (2*m_periodic))
+        sin_terms_flat = tf.reshape(sin_terms, [tf.shape(inputs)[0], self.input_dim * (2 * self.m_periodic)])
+        cos_terms_flat = tf.reshape(cos_terms, [tf.shape(inputs)[0], self.input_dim * (2 * self.m_periodic)])
+
+        # Concatenate [all sin harmonics, all cos harmonics]
+        result = tf.concat([sin_terms_flat, cos_terms_flat], axis=1)
         
-        # Concatenate all dimensions
-        result = tf.concat(outputs, axis=1)
         return result
     
     def get_config(self):
@@ -149,8 +150,9 @@ def init_model(nb_hidden_layers, nb_nodes_per_layer, m_periodic, n_periodic, ome
     all_layers.append(trig_basis_layer)
     model.add(trig_basis_layer)
 
-    # Second periodic layer (now takes input from trigonometric basis)
-    second_periodic_layer = tf.keras.layers.Dense((m_periodic+2)*input_dim,
+    # Match units to new basis width so the diagonal constraint applies cleanly
+    # Basis width per dimension: 2 functions (sin, cos) × 2*m_periodic freqs = 4*m_periodic
+    second_periodic_layer = tf.keras.layers.Dense(4*m_periodic*input_dim,
                                                   activation = 'tanh',
                                                   use_bias = True,
                                                   trainable = True,
@@ -182,12 +184,13 @@ def init_model(nb_hidden_layers, nb_nodes_per_layer, m_periodic, n_periodic, ome
     
     return model
 
-nb_hidden_layers = 3
-nb_nodes_per_layer = 30
+nb_hidden_layers = int(sys.argv[10])
+hw_ratio = int(sys.argv[11])
+nb_nodes_per_layer = nb_hidden_layers * hw_ratio
 
 input_dim = int(sys.argv[1])
-m_periodic = 11
-n_periodic = 30
+m_periodic = int(sys.argv[8])
+n_periodic = int(sys.argv[9])
 
 L_period = 1.0 #2*np.pi
 omega = 2*np.pi/L_period

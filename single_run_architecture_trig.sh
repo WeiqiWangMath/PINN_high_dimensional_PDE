@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --account=def-sbrugiap
 #SBATCH --time=02:59:00
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:h100:1
+#SBATCH --nodes=1
 #SBATCH --mem=64G
 
-# Load specific CUDA version to avoid driver mismatch
-module load python/3.10 cuda cudnn
+module load python/3.11
 source ./PINN_PDE/bin/activate
 
 # Verify GPU availability
