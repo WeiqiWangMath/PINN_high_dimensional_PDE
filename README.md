@@ -3,29 +3,40 @@
 Paper: https://arxiv.org/abs/2406.01539
 
 This repository contains two experiment tracks:
-- Python PINNs for periodic high-dimensional diffusion–reaction problems (GPU-enabled TensorFlow/Keras).
+- Python PINNs for periodic high-dimensional diffusion–reaction problems (GPU-enabled TensorFlow/Keras). We strongly recommend running PINN experiments on a CUDA-capable GPU; CPU-only runs will be far slower.
 - MATLAB basis-adaptive compressive Fourier/collocation experiments and figure generation.
 
 ## Figure-by-figure reproduction (paper order)
 Use `data_visualize.m` as the illustrative workflow for plotting regenerated data (it shows how figure assets are produced from data for all figures). Python outputs can be visualized similarly from regenerated `.out` files into `figs/`.
 
 Figure 1 in the paper is a TikZ figure (not generated here). 
+
 Figure 2 illustrates the reduced margin \(R(S)\) of a multi-index set (conceptual schematic). To recreate the idea: build an index set `S = generate_index_set(...)`, compute `RS = find_reduced_margin(S)` (see `Basis_adaptive_method/utils/find_reduced_margin.m`), and plot `S` vs `RS` in MATLAB.
+
 Figure 3: impact of number of samples \(m\) on PINNs for the exact solutions 1–3; parameters \(d=6\), \(\rho=\nu=0.5\), 30000 epochs. Regenerate with:
 - Example 1: `example1.py`
 - Example 2: `example2.py`
-- Example 3: `example3.py`; set `input_dim=6`, `nu=0.5`, `epochs=30000`, `M_error=10000`, vary `N`. Slurm wrappers: `training_n_runs.sh` / `single_run_example_1.sh` give example of multiple runs. Outputs are written as `data/<file_name>Run<N_runs>.out`.
+- Example 3: `example3.py`; set `input_dim=6`, `nu=0.5`, `epochs=30000`, `M_error=10000`, vary `N`. Slurm wrapper: `single_run_example_1.sh` (adapt arguments as needed for multi-run sweeps). Outputs are written as `data/<file_name>Run<N_runs>.out`.
+
 Figure 4: impact of dimension \(d\) on PINNs for the exact solutions; same settings as Figure 3 except sweeping `input_dim` (see `figs/PINN_dimension_solu*.eps`). Run `example1.py`, `example2.py`, `example3.py` with fixed `N` per figure, `nu=0.5`, `epochs=30000`, `M_error=10000`, and sweep `input_dim`. Outputs: `data/<file_name>Run<N_runs>.out`.
+
 Figure 5: final-error vs. number of sample points (after 30000 epochs), for the exact solutions 1–3. Use `example1.py`, `example2.py`, `example3.py` with the sample counts shown in the figure; take the final reported error from each run (last epoch) to plot. Outputs: `data/<file_name>Run<N_runs>.out`. Visualization for PINN curves is scripted in `data_visualize.m` (root).
+
 Figure 6: architecture sweeps (hidden layers / periodic layers) for paper Example 3. Run:
 - Hidden-layer/width sweeps: `single_run_architecture.sh input_dim N nu epochs M_error file_name N_runs m_periodic n_periodic nb_hidden_layers hw_ratio` (calls `example3_architecture.py`). Example from paper scripts: `20 10000 0.5 30000 10000 example3_h{nb_layers}r{hw} <run> 11 30 {nb_layers} {hw}`.
 - Periodic-layer sweeps: `single_run_architecture_trig.sh input_dim N nu epochs M_error file_name N_runs m_periodic n_periodic nb_hidden_layers hw_ratio` (calls `example3_trig_basis.py`; note `n_periodic` is currently unused there). Example: `20 10000 0.5 30000 10000 example3_m{m}_N10000 <run> {m} 30 3 10`.
-- Batch examples: `training_n_runs_architecture_hidden.sh` (varies `nb_hidden_layers`, `hw_ratio`) and `training_n_runs_architecture_periodic.sh` (varies `m_periodic`), used for Fig 6 data generation.
+- Batch examples: `training_n_runs_architecture_hidden.sh` (varies `nb_hidden_layers`, `hw_ratio`) and `training_n_runs_architecture_periodic_revision.sh` (varies `m_periodic` for the trig/Fourier variant), used for Fig 6/13 periodic-layer data.
 Outputs: `data/<file_name>Run<N_runs>.out`, plotted via `data_visualize.m`.
+
 Figure 7: adaptive OMP (lower set) error and cardinality vs iterations for Examples 1–3 (paper \(u_1,u_2,u_3\)). Run MATLAB script `Basis_adaptive_method/Figures/Adaptive_lower_test.m` (uses `Adaptive_lower_OMP.m`) with `m=3000`, `N=150/200`, `nu=0.5`, `N_runs=25`. It saves `Basis_adaptive_method/data/example{1,2,4}_data.mat` and plots Fig 7 subpanels (relative \(L^2\) error and lower-set cardinality vs iteration). 
+
 Figure 8: traditional vs adaptive OMP comparison (lower OMP vs NN). In `Basis_adaptive_method/Figures/Adaptive_lower_test.m`, the final sections load adaptive OMP results (`Basis_adaptive_method/data/example{1,2,4}_m*.mat`) and NN outputs (`data/example{1,2,3}_dim30_N*Run*.out`) to plot relative \(L^2\) error curves. Run the script to regenerate; no additional `.out` files beyond the NN runs are needed on the MATLAB side.
+
 Figure 9: extended adaptive OMP vs NN comparison (Examples 1–3), also produced in `Basis_adaptive_method/Figures/Adaptive_lower_test.m` (see the adaptive/NN comparison blocks). It plots relative \(L^2\) error versus sample count for both methods using the precomputed `.mat` adaptive results and NN `.out` files.
+
 Figures 10–11: proof illustrations only; not generated by code in this repo.
+
 Figure 12: impact of sparse regularization (\(\ell^1\) on the last layer) for Examples 1–3 (\(d=10\)). Run `example1_l1.py`, `example2_l1.py`, and `example3_l1.py` with `lambda_l1=10^k` (or 0 for no regularization), varying the training sample count `N`; use 30000 epochs, `M_error=10000`, `nu=0.5`, `input_dim=10`. Bash helper: `single_run_L1.sh` (or adapt it for Example 2/3 L1). Outputs: `data/example{1,2,3}_L1_k{...}_N{...}Run<N_runs>.out`. Plotted via `data_visualize.m` in the L1-regularization blocks.
+
 Figure 13: trainable vs. non-trainable periodic layer for Example 3 (\(u_3\)); compare the standard trainable periodic layer to a fixed first Fourier features layer with frequency cap \(M \in \{16,32,64\}\). Run `example3.py` (trainable) and `example3_trig_basis.py` (fixed Fourier features) with matching params (e.g., `input_dim=6`, `N=4096`, `nu=0.5`, `epochs=50000`, `M_error` as set in the scripts). Use `single_run_architecture_trig.sh` (or equivalent) to sweep `m_periodic` = 16, 32, 64; outputs like `data/example43trig_arch_d6_m{m_periodic}_N4096Run*.out` alongside the trainable `data/example3_dim6_m50000_N4096_Run*.out`. Visualization in `data_visualize.m` (trainable vs non-trainable periodic layer block).
 

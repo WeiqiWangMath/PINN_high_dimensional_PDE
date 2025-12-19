@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=01:30:00
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:h100:1
 #SBATCH --mem=32000
 
 module load python/3.10 cuda cudnn
