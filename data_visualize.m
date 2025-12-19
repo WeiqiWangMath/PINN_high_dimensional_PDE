@@ -493,7 +493,7 @@ set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
 
-%% Example 3 (paper u3) Error vs. number of sample points (after 30000 epochs) — Paper Fig 5, Example 3
+%% Example 3 Error vs. number of sample points (after 30000 epochs) — Paper Fig 5, Example 3
 figure(21)
 % load data
 epoch = 30000;
@@ -548,8 +548,7 @@ title('Example 3 (after 30000 epochs)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 4 test architecture of the neural network
-% Error vs. number of hidden layer (and width height ratio)
+%% Example 3 architecture sweep (Paper Fig 6 - hidden layers/width ratio)
 figure(17)
 N_runs = 10;
 ratio = {'3', '5', '10', '20'};
@@ -559,7 +558,8 @@ for r = 1:4
     for j = 1:4
         for i = 0 : N_runs-1
             h = x_data(j);
-            file_name = strcat('data\example4_h', num2str(h), 'r', ratio{r}, 'Run', num2str(i), '.out');
+            file_name = strcat('data/example3_h', num2str(h), 'r', ratio{r}, 'Run', num2str(i), '.out');
+            disp(file_name)
             str_data = fileread(file_name);
             split_data = split(str_data);
             y_data(j, i+1, r) = str2num(split_data{300});
@@ -584,92 +584,293 @@ set(gca,'FontSize',20);
 xticks([1 3 5 7])
 yticks([1e-5 1e-4 1e-3 1e-2 1])
 
-%% Example 3 test architecture of the neural network
+
+%% Example 3 periodic layer sweep (Paper Fig 6 - periodic layers)
+% Periodic-layer nodes m sweep (n is fixed/unused in code)
+figure(19)
+m = 10:5:50;
+N_runs = 5;
+y_data = zeros(length(m), N_runs, 1);
+for i = 1:length(m)
+    for k = 0 : N_runs-1
+        file_name = strcat('data/example3_m', num2str(m(i)), '_N10000Run', num2str(k), '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        y_data(i, k+1, 1) = str2num(split_data{300});
+    end
+end
+
+x_data = m;
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+xlim([10 50])
+ylim([1e-4 5e-2])
+xlabel('m');
+ylabel('relative L^2 error');
+title('Example 3 periodic layer sweep')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+
+
+%% Example 1 L1_regularization Error vs. number of sample points (after 30000 epochs)
+figure(10)
+% load data
+epoch = 30000;
+N_runs = 10;
+Error_k2 = zeros(14, N_runs);
+Error_k3 = zeros(14, N_runs);
+Error_k4 = zeros(14, N_runs);
+Error_k1 = zeros(14, N_runs);
+for j = 10 : 14
+    for i = 1 : N_runs
+        file_name = strcat('data/example1_L1_k0_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k1(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+for j = 10 : 14
+    for i = 1 : N_runs
+        file_name = strcat('data/example1_L1_k1e-1_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k2(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+for j = 10 : 14
+    for i = 1 : N_runs
+        file_name = strcat('data/example1_L1_k1e0_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k3(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+for j = 10 : 14
+    for i = 1 : N_runs
+        file_name = strcat('data/example1_L1_k1e1_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k4(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+
+% plot data
+x_data = 2.^(10:14);
+y_data = zeros(length(x_data), N_runs, 4);
+y_data(:, :, 1) = Error_k1(10:14, :);
+y_data(:, :, 2) = Error_k2(10:14, :);
+y_data(:, :, 3) = Error_k3(10:14, :);
+y_data(:, :, 4) = Error_k4(10:14, :);
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+legend(hMeanPlots, {'$\lambda$=0','$\lambda$=0.1', '$\lambda$=1', '$\lambda$=10'},'Interpreter','latex')
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-4 3]);
+xlim([0 16384])
+xlabel('number of sample points');
+ylabel('relative L^2 error');
+title('Example 1 (after 30000 epochs)')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+
+%% Example 2 L1_regularization Error vs. number of sample points (after 30000 epochs)
+figure(10)
+% load data
+epoch = 30000;
+N_runs = 10;
+Error_k2 = zeros(13, N_runs);
+Error_k3 = zeros(13, N_runs);
+Error_k4 = zeros(13, N_runs);
+Error_k1 = zeros(13, N_runs);
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example2_L1_k0_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k1(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example2_L1_k1e-1_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k2(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example2_L1_k1e0_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k3(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example2_L1_k1e1_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k4(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+
+% plot data
+x_data = 2.^(10:13);
+y_data = zeros(length(x_data), N_runs, 4);
+y_data(:, :, 1) = Error_k1(10:13, :);
+y_data(:, :, 2) = Error_k2(10:13, :);
+y_data(:, :, 3) = Error_k3(10:13, :);
+y_data(:, :, 4) = Error_k4(10:13, :);
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+legend(hMeanPlots, {'$\lambda$=0','$\lambda$=0.1', '$\lambda$=1', '$\lambda$=10'},'Interpreter','latex')
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-4 3]);
+yticks([1e-4 1e-2 1])
+xlim([0 8192])
+xlabel('number of sample points');
+ylabel('relative L^2 error');
+title('Example 2 (after 30000 epochs)')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+
+%% Example 4 L1_regularization Error vs. number of sample points (after 30000 epochs)
+figure(10)
+% load data
+epoch = 30000;
+N_runs = 10;
+Error_k2 = zeros(13, N_runs);
+Error_k3 = zeros(13, N_runs);
+Error_k4 = zeros(13, N_runs);
+Error_k1 = zeros(13, N_runs);
+Error_k5 = zeros(13, N_runs);
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example4_L1_k0_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k1(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example4_L1_k1e-1_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k2(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example4_L1_k1e0_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k3(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example4_L1_k1e1_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k4(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+for j = 10 : 13
+    for i = 1 : N_runs
+        file_name = strcat('data/example4_L1_k1e2_N', num2str(2^j), 'Run', num2str(i) , '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        Error_k5(j, i) = str2num(split_data{2*epoch+29901});
+    end
+end
+
+
+% plot data
+x_data = 2.^(10:13);
+y_data = zeros(length(x_data), N_runs, 4);
+y_data(:, :, 1) = Error_k1(10:13, :);
+y_data(:, :, 2) = Error_k2(10:13, :);
+y_data(:, :, 3) = Error_k3(10:13, :);
+y_data(:, :, 4) = Error_k4(10:13, :);
+y_data(:, :, 5) = Error_k5(10:13, :);
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+legend(hMeanPlots, {'$\lambda$=0','$\lambda$=0.1', '$\lambda$=1', '$\lambda$=10', '$\lambda$=100'},'Interpreter','latex')
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-4 3]);
+yticks([1e-4 1e-2 1])
+xlim([0 8192])
+xlabel('number of sample points');
+ylabel('relative L^2 error');
+title('Example 3 (after 30000 epochs)')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+
+%% Example 4 test architecture of the neural network dim10
 % Error vs. number of hidden layer (and width height ratio)
-figure(18)
+figure(17)
 N_runs = 10;
 ratio = {'3', '5', '10', '20'};
 x_data = 1:2:7;
 y_data = zeros(length(x_data), N_runs, length(ratio));
 for r = 1:4
     for j = 1:4
-        for i = 0 : N_runs-1
+        for i = 1 : N_runs
             h = x_data(j);
-            file_name = strcat('data\example3_h', num2str(h), 'r', ratio{r}, 'Run', num2str(i), '.out');
+            file_name = strcat('data/example4_dim10_h', num2str(h), 'r', ratio{r}, 'Run', num2str(i), '.out');
+            disp(file_name)
             str_data = fileread(file_name);
             split_data = split(str_data);
-            y_data(j, i+1, r) = str2num(split_data{300});
+            y_data(j, i, r) = str2num(split_data{300});
         end
     end
 end
-
 
 
 [hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
 legend(hMeanPlots, {'r=3', 'r=5', 'r=10', 'r=20'},'Interpreter','latex')
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
 set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-ylim([1e-3 10]);
-xlim([0 7])
+ylim([1e-5 10]);
+xlim([1 7])
 xlabel('# of hidden layers');
-ylabel('relative L2 error');
-title('Example 3 (20000 sample pts after 30000 epochs)')
+ylabel('relative L^2 error');
+% title('Example 4 (5000 sample pts after 30000 epochs)')
+title('Hidden layer test')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
+xticks([1 3 5 7])
+yticks([1e-5 1e-4 1e-3 1e-2 1])
 
 
-%% Example 3 test periodic layers of the neural network
-% Error vs. number of hidden layer (and width height ratio)
-figure(19)
-m = 10:5:50;
-n = 10:10:50;
-N_runs = 1;
-data = zeros(9,5,N_runs);
-z_data = data(:,:,1);
-for i = 1: 9
-    for j = 1:5
-        for k = 0 : 4
-            file_name = strcat('data\example3_m', num2str(m(i)), 'n', num2str(n(j)), 'Run', num2str(k), '.out');
-            str_data = fileread(file_name);
-            split_data = split(str_data);
-            data(i, j, k+1) = str2num(split_data{300});
-        end
-        z_data(i, j) = 10^(mean(log10(data(i,j,:))));
-    end
-end
-
-[X, Y] = meshgrid(n,m);
-surf(X, Y, z_data);
-set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
-set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
-set(gca, 'ZScale','log')
-xlim([10 50])
-ylim([10 50])
-zlim([1e-2 10])
-xlabel('m');
-ylabel('n');
-zlabel('relative L2 error');
-title('Example 3 (20000 sample pts after 30000 epochs)')
-set(gca,'FontSize',20);
-
-
-%% Example 4 test periodic layers of the neural network
+%% Example 4 test periodic layers of the neural network dim10
 % Error vs. number of hidden layer (and width height ratio)
 figure(20)
 m = 10:5:50;
 x_data = m;
 n = 10:10:50;
-N_runs = 1;
-data = zeros(9,5,N_runs);
-y_data = zeros(9, 25, 1);
+N_runs = 10;
+y_data = zeros(9, N_runs, 1);
 for i = 1: 9
-    for j = 1:5
-        for k = 0 : 4
-            file_name = strcat('data\example4_m', num2str(m(i)), 'n', num2str(n(j)), 'Run', num2str(k), '.out');
-            str_data = fileread(file_name);
-            split_data = split(str_data);
-            y_data(i, j*5+k-4, 1) = str2num(split_data{300});
-        end
+    for j = 1:N_runs
+        file_name = strcat('data/example4_arch_m', num2str(m(i)), '_N10000Run', num2str(j), '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        y_data(i, j, 1) = str2num(split_data{300});
     end
 end
 
@@ -682,4 +883,138 @@ xlabel('# of nodes m in the periodic layer');
 ylabel('relative L^2 error');
 % title('Example 4 (5000 sample pts after 30000 epochs)')
 title('Periodic layer test')
+set(gca,'FontSize',20);
+%% Example 4 test periodic layers of the neural network dim20
+% Error vs. number of hidden layer (and width height ratio)
+figure(21)
+m = 10:5:50;
+x_data = m;
+n = 10:10:50;
+N_runs = 10;
+y_data = zeros(9, N_runs, 1);
+for i = 1: 9
+    for j = 1:N_runs
+        file_name = strcat('data/example4_arch_d20_m', num2str(m(i)), '_N10000Run', num2str(j), '.out');
+        str_data = fileread(file_name);
+        split_data = split(str_data);
+        y_data(i, j, 1) = str2num(split_data{300});
+    end
+end
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+xlim([10 50])
+ylim([1e-4 5e-3])
+xlabel('# of nodes m in the periodic layer');
+ylabel('relative L^2 error');
+% title('Example 4 (5000 sample pts after 30000 epochs)')
+title('Periodic layer test')
+set(gca,'FontSize',20);
+
+
+%% Example 4 test architecture of the neural network dim20
+% Error vs. number of hidden layer (and width height ratio)
+figure(22)
+N_runs = 10;
+ratio = {'3', '5', '10', '20'};
+x_data = 1:2:7;
+y_data = zeros(length(x_data), N_runs, length(ratio));
+for r = 1:4
+    for j = 1:4
+        for i = 1 : N_runs
+            h = x_data(j);
+            file_name = strcat('data/example4_dim20_h', num2str(h), 'r', ratio{r}, 'Run', num2str(i), '.out');
+            disp(file_name)
+            str_data = fileread(file_name);
+            split_data = split(str_data);
+            y_data(j, i, r) = str2num(split_data{300});
+        end
+    end
+end
+
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+legend(hMeanPlots, {'r=3', 'r=5', 'r=10', 'r=20'},'Interpreter','latex')
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-5 10]);
+xlim([1 7])
+xlabel('# of hidden layers');
+ylabel('relative L^2 error');
+% title('Example 4 (5000 sample pts after 30000 epochs)')
+title('Hidden layer test')
+set(gca,'YScale','log')
+set(gca,'FontSize',20);
+xticks([1 3 5 7])
+yticks([1e-5 1e-4 1e-3 1e-2 1])
+
+%% Example 4
+
+figure(23)
+% load data
+epoch = 50000;
+N_runs = 10;
+N_curves = 4;
+output_len = epoch/200;
+
+Error_M0 = zeros(output_len, N_runs);
+for i = 1 : N_runs
+    file_name = strcat('data/example4_dim6_m50000_N4096_Run', num2str(i) ,'Run', num2str(i) ,'.out');
+    str_data = fileread(file_name);
+    split_data = split(str_data);
+    for j = 1 : output_len
+        Error_M0(j, i) = str2num(split_data{j});
+    end
+end
+
+Error_M16 = zeros(output_len, N_runs);
+for i = 1 : N_runs
+    file_name = strcat('data/example4_trig_arch_d6_m16_N4096Run', num2str(i) , '.out');
+    str_data = fileread(file_name);
+    split_data = split(str_data);
+    for j = 1 : output_len
+        Error_M16(j, i) = str2num(split_data{2*epoch+(j-1)*200+1});
+    end
+end
+
+Error_M32 = zeros(output_len, N_runs);
+for i = 1 : N_runs
+    file_name = strcat('data/example4_trig_arch_d6_m32_N4096Run', num2str(i) , '.out');
+    str_data = fileread(file_name);
+    split_data = split(str_data);
+    for j = 1 : output_len
+        Error_M32(j, i) = str2num(split_data{2*epoch+(j-1)*200+1});
+    end
+end
+
+Error_M64 = zeros(output_len, N_runs);
+for i = 1 : N_runs
+    file_name = strcat('data/example4_trig_arch_d6_m64_N4096Run', num2str(i) , '.out');
+    str_data = fileread(file_name);
+    split_data = split(str_data);
+    for j = 1 : output_len
+        Error_M64(j, i) = str2num(split_data{2*epoch+(j-1)*200+1});
+    end
+end
+
+
+% plot data
+x_data = 0:200:epoch-1;
+y_data = zeros(length(x_data), N_runs, N_curves);
+y_data(:, :, 1) = Error_M16(1:output_len, :);
+y_data(:, :, 2) = Error_M32(1:output_len, :);
+y_data(:, :, 3) = Error_M64(1:output_len, :);
+y_data(:, :, 4) = Error_M0(1:output_len, :);
+
+[hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
+legend(hMeanPlots, {'M=16','M=32','M=64','Trainable'},'Interpreter','latex')
+set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
+set(gcf, 'OuterPosition',  [0, 0, 550, 550]);
+ylim([1e-4 1e2]);
+xlim([0 50000])
+xlabel('number of epochs');
+ylabel('relative L^2 error');
+title('Example 3')
+set(gca,'YScale','log')
 set(gca,'FontSize',20);

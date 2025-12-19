@@ -17,6 +17,11 @@ Figure 3: impact of number of samples \(m\) on PINNs for the exact solutions 1â€
 - Example 3: `example3.py`; set `input_dim=6`, `nu=0.5`, `epochs=30000`, `M_error=10000`, vary `N`. Slurm wrappers: `training_n_runs.sh` / `single_run_example_1.sh` give example of multiple runs. Outputs are written as `data/<file_name>Run<N_runs>.out`.
 Figure 4: impact of dimension \(d\) on PINNs for the exact solutions; same settings as Figure 3 except sweeping `input_dim` (see `figs/PINN_dimension_solu*.eps`). Run `example1.py`, `example2.py`, `example3.py` with fixed `N` per figure, `nu=0.5`, `epochs=30000`, `M_error=10000`, and sweep `input_dim`. Outputs: `data/<file_name>Run<N_runs>.out`.
 Figure 5: final-error vs. number of sample points (after 30000 epochs), for the exact solutions 1â€“3. Use `example1.py`, `example2.py`, `example3.py` with the sample counts shown in the figure; take the final reported error from each run (last epoch) to plot. Outputs: `data/<file_name>Run<N_runs>.out`. Visualization for PINN curves is scripted in `data_visualize.m` (root).
+Figure 6: architecture sweeps (hidden layers / periodic layers) for paper Example 3. Run:
+- Hidden-layer/width sweeps: `single_run_architecture.sh input_dim N nu epochs M_error file_name N_runs m_periodic n_periodic nb_hidden_layers hw_ratio` (calls `example3_architecture.py`). Example from paper scripts: `20 10000 0.5 30000 10000 example3_h{nb_layers}r{hw} <run> 11 30 {nb_layers} {hw}`.
+- Periodic-layer sweeps: `single_run_architecture_trig.sh input_dim N nu epochs M_error file_name N_runs m_periodic n_periodic nb_hidden_layers hw_ratio` (calls `example3_trig_basis.py`; note `n_periodic` is currently unused there). Example: `20 10000 0.5 30000 10000 example3_m{m}_N10000 <run> {m} 30 3 10`.
+- Batch examples: `training_n_runs_architecture_hidden.sh` (varies `nb_hidden_layers`, `hw_ratio`) and `training_n_runs_architecture_periodic.sh` (varies `m_periodic`), used for Fig 6 data generation.
+Outputs: `data/<file_name>Run<N_runs>.out`, plotted via `data_visualize.m`.
 
 ## Repository layout (kept as-is, described for clarity)
 - Python PINN scripts (root):
