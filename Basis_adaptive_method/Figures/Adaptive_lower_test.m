@@ -54,7 +54,7 @@ for i_runs = 1: N_runs
 end
 save('..\data\example1_data', 'rel_L2_error_CS', 'card_index')
 
-%% Plot example 1
+%% Plot example 1 — Paper Fig 7 (Example 1/u1: error & lower-set cardinality vs iterations)
 figure(14)
 clf(14)
 load('..\data\example1_data')
@@ -109,7 +109,7 @@ end
 save('..\data\example2_data', 'rel_L2_error_CS', 'card_index')
 
 
-%% Plot example 2
+%% Plot example 2 — Paper Fig 7 (Example 2/u2: error & lower-set cardinality vs iterations)
 figure(15)
 load('..\data\example2_data')
 N = 150;
@@ -166,7 +166,7 @@ end
 save('..\data\example4_data', 'rel_L2_error_CS', 'card_index')
 
 
-%% Plot example 4
+%% Plot example 3 — Paper Fig 7 (Example 3/u3: error & lower-set cardinality vs iterations)
 figure(16)
 load('..\data\example4_data')
 N = 200;
@@ -295,7 +295,7 @@ for i = 1:length(m)
 end
 
 
-%% Plot adaptive OMP vs. NN (example 4)
+%% Plot adaptive OMP vs. NN (example 4) — Paper Fig 9 (Example 3/u3)
 figure(21)
 m = [500, 1000, 1500, 2000, 2500, 3000]; %number of sample point
 N_runs = 25;
@@ -324,7 +324,7 @@ set(gca,'FontSize',20);
 yticks([1e-10 1e-5 1e-4 1e-3 1e-2 0.1 1]);
 legend(hMeanPlots, {'Lower OMP', 'NN'},'Interpreter','latex')
 
-%% Plot adaptive OMP vs. NN (example 2)
+%% Plot adaptive OMP vs. NN (example 2) — Paper Fig 9 (Example 2/u2)
 figure(22)
 m = [500, 1000, 1500, 2000, 2500, 3000]; %number of sample point
 N_runs = 25;
@@ -357,7 +357,7 @@ yticks([1e-10 1e-5 1e-3 1e-2 0.1 1]);
 legend(hMeanPlots, {'Lower OMP', 'NN'},'Interpreter','latex')
 
 
-%% Plot adaptive OMP vs. NN (example 1)
+%% Plot adaptive OMP vs. NN (example 1) — Paper Fig 9 (Example 1/u1)
 figure(26)
 m = [2000, 4000, 6000, 8000]; %number of sample point
 N_runs = 25;
@@ -424,7 +424,7 @@ for i = 1:length(m)
     save(append('..\data\example2_dim6_adapt_m',num2str(m(i))), 'L2_error')
 end
 
-%% Plot adaptive OMP vs. traditional OMP (example 2)
+%% Plot adaptive OMP vs. traditional OMP (example 2) — Paper Fig 8 (u2)
 figure(23)
 m = [16, 32, 64, 128, 256, 500, 1000, 1500]; %number of sample point
 N_runs = 25;
@@ -480,7 +480,7 @@ for i = 1:length(m)
     save(append('..\data\example4_dim6_adapt_m',num2str(m(i))), 'L2_error')
 end
 
-%% Plot adaptive OMP vs. traditional OMP (example 4)
+%% Plot adaptive OMP vs. traditional OMP (example 4) — Paper Fig 8 (u3)
 figure(23)
 m = [16, 32, 64, 128, 256, 500, 1000, 1500, 2000, 2500, 3000]; %number of sample point
 N_runs = 25;
@@ -536,7 +536,7 @@ for i = 1:length(m)
     save(append('..\data\example1_dim6_adapt_m',num2str(m(i))), 'L2_error')
 end
 
-%% Plot adaptive OMP vs. traditional OMP (example 1)
+%% Plot adaptive OMP vs. traditional OMP (example 1) — Paper Fig 8 (u1)
 figure(24)
 m = [16, 32, 64, 128, 256, 500, 1000, 1500, 2000, 2500, 3000]; %number of sample point
 N_runs = 25;

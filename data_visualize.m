@@ -586,7 +586,7 @@ yticks([1e-5 1e-4 1e-3 1e-2 1])
 
 
 %% Example 3 periodic layer sweep (Paper Fig 6 - periodic layers)
-% Periodic-layer nodes m sweep (n is fixed/unused in code)
+% Periodic-layer nodes m sweep
 figure(19)
 m = 10:5:50;
 N_runs = 5;
@@ -599,7 +599,6 @@ for i = 1:length(m)
         y_data(i, k+1, 1) = str2num(split_data{300});
     end
 end
-
 x_data = m;
 [hMeanPlots] = plot_book_style(x_data, y_data, 'shaded', 'mean_std_log10');
 set(gcf, 'InnerPosition',  [0, 0, 550, 550]);
@@ -608,7 +607,7 @@ xlim([10 50])
 ylim([1e-4 5e-2])
 xlabel('m');
 ylabel('relative L^2 error');
-title('Example 3 periodic layer sweep')
+title('Periodic layer test')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
