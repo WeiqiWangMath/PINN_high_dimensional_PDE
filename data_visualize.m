@@ -612,7 +612,7 @@ set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
 
-%% Example 1 L1_regularization Error vs. number of sample points (after 30000 epochs)
+%% Example 1 L1_regularization Error vs. number of sample points (after 30000 epochs) — Paper Fig 12 (u1, d=10)
 figure(10)
 % load data
 epoch = 30000;
@@ -677,7 +677,7 @@ title('Example 1 (after 30000 epochs)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 2 L1_regularization Error vs. number of sample points (after 30000 epochs)
+%% Example 2 L1_regularization Error vs. number of sample points (after 30000 epochs) — Paper Fig 12 (u2, d=10)
 figure(10)
 % load data
 epoch = 30000;
@@ -743,7 +743,7 @@ title('Example 2 (after 30000 epochs)')
 set(gca,'YScale','log')
 set(gca,'FontSize',20);
 
-%% Example 4 L1_regularization Error vs. number of sample points (after 30000 epochs)
+%% Example 3 L1_regularization Error vs. number of sample points (after 30000 epochs) — Paper Fig 12 (u3, d=10)
 figure(10)
 % load data
 epoch = 30000;
@@ -948,7 +948,7 @@ set(gca,'FontSize',20);
 xticks([1 3 5 7])
 yticks([1e-5 1e-4 1e-3 1e-2 1])
 
-%% Example 4
+%% Example 3 periodic layer: trainable vs. non-trainable (Paper Fig 13, u3)
 
 figure(23)
 % load data
@@ -959,7 +959,7 @@ output_len = epoch/200;
 
 Error_M0 = zeros(output_len, N_runs);
 for i = 1 : N_runs
-    file_name = strcat('data/example4_dim6_m50000_N4096_Run', num2str(i) ,'Run', num2str(i) ,'.out');
+    file_name = strcat('data/example4_dim6_m10000_N4096_Run', num2str(i) ,'Run', num2str(i) ,'.out');
     str_data = fileread(file_name);
     split_data = split(str_data);
     for j = 1 : output_len
